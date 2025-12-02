@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Google Drive 엑셀 → 웹 화면 연동 단계 가이드</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #020617;
+      --card: #020617;
+      --card-soft: #020817;
+      --border-subtle: rgba(148, 163, 184, 0.25);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.2);
+      --accent-strong: #0ea5e9;
+      --warn: #f97373;
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --muted: #64748b;
+      --shadow-soft: 0 22px 45px rgba(15, 23, 42, 0.9);
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Spoqa Han Sans Neo", "Apple SD Gothic Neo", "Noto Sans KR",
+        "Segoe UI", system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(circle at top left, #0b1120 0, #020617 42%, #000000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 은은한 그리드 패턴 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mix-blend-mode: soft-light;
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    /* 헤더 카드 */
+    .header-card {
+      background:
+        radial-gradient(circle at top left, #1e293b 0, #020617 55%, #000 100%);
+      border-radius: 24px;
+      padding: 20px 20px 18px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-card::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -60px;
+      top: -60px;
+      background:
+        conic-gradient(
+          from 220deg,
+          rgba(56, 189, 248, 0.25),
+          rgba(59, 130, 246, 0.03),
+          transparent 60%
+        );
+      filter: blur(2px);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 11px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.95),
+        rgba(15, 23, 42, 0.85)
+      );
+      color: var(--text-soft);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .eyebrow span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #facc15, #22c55e);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+    }
+
+    h1 {
+      font-size: clamp(22px, 4vw, 28px);
+      margin-bottom: 8px;
+      background: linear-gradient(to right, #e5f2ff, #bae6fd, #38bdf8);
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .header-sub {
+      color: var(--text-soft);
+      font-size: 13px;
+      max-width: 640px;
+    }
+
+    .header-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-soft);
+      font-size: 11px;
+    }
+
+    .tag-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+    }
+
+    /* 공통 카드 스타일 */
+    .section {
+      margin-top: 22px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 18px;
+      height: 1px;
+      background: linear-gradient(to right, var(--accent), transparent);
+      opacity: 0.8;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #020617, #020617 60%, #000 100%);
+      border-radius: var(--radius-lg);
+      padding: 16px 16px 14px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 18px 30px rgba(15, 23, 42, 0.85);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #e2e8f0;
+      letter-spacing: -0.01em;
+    }
+
+    .card-pill {
+      padding: 2px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 11px;
+      color: var(--text-soft);
+      background: rgba(15, 23, 42, 0.9);
+      white-space: nowrap;
+    }
+
+    .card-body {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .card-body p {
+      margin-bottom: 6px;
+    }
+
+    .card-body ul {
+      margin: 4px 0 2px 14px;
+      padding-left: 2px;
+      list-style: disc;
+    }
+
+    .card-body li + li {
+      margin-top: 2px;
+    }
+
+    .card-body strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .card-badge-trio {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+    }
+
+    .badge.accent {
+      border-color: rgba(56, 189, 248, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: #e0f2fe;
+    }
+
+    /* 2단 카드 그리드 */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    /* 요약 표 */
+    .table-card {
+      margin-top: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 6px;
+      overflow: hidden;
+      border-radius: 14px;
+      background: radial-gradient(circle at top left, #020617, #020617 60%, #000 100%);
+    }
+
+    thead {
+      background: linear-gradient(
+        to right,
+        rgba(30, 64, 175, 0.9),
+        rgba(15, 23, 42, 0.9)
+      );
+    }
+
+    th,
+    td {
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 500;
+      color: #e5e7eb;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      white-space: nowrap;
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(15, 23, 42, 0.92);
+    }
+
+    tbody tr:nth-child(odd) {
+      background: rgba(15, 23, 42, 0.78);
+    }
+
+    tbody td {
+      border-bottom: 1px dashed rgba(51, 65, 85, 0.8);
+      color: var(--text-soft);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* 노트 박스 */
+    .note {
+      margin-top: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px dashed rgba(56, 189, 248, 0.6);
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), #020617);
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .note-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #bae6fd;
+      margin-bottom: 2px;
+    }
+
+    /* 코드 블록 스타일 (간단한 예시용) */
+    pre {
+      margin-top: 6px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: #020617;
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Monaco,
+        Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      overflow-x: auto;
+      color: #e5e7eb;
+    }
+
+    code {
+      font-family: inherit;
+    }
+
+    /* 반응형 브레이크포인트 */
+    @media (max-width: 840px) {
+      .page {
+        padding: 20px 14px 32px;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .header-card {
+        padding: 18px 16px 16px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .card {
+        padding: 14px 13px 13px;
+      }
+
+      .header-tags {
+        gap: 6px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <!-- 헤더 카드: 전체 개요 -->
+    <section class="header-card">
+      <div class="eyebrow">
+        <span class="dot"></span>
+        GOOGLE DRIVE EXCEL → WEB BACKEND FLOW
+      </div>
+      <h1>
+        Google Drive에 올린 엑셀을<br />
+        웹 화면 백엔드로 쓰기 위한 단계별 체크리스트
+      </h1>
+      <p class="header-sub">
+        구글 드라이브에 업로드한 엑셀(또는 구글 시트)을 “데이터베이스처럼” 사용해 웹 페이지에서 조회할 때,
+        어떤 부분을 순서대로 처리해야 하는지 정리한 가이드입니다.
+        <strong>데이터 준비 → 백엔드 설계 → API 설계 → 프론트 연동 → 운영·보안</strong>
+        흐름으로 보면 됩니다.
+      </p>
+      <div class="header-tags">
+        <span class="tag">
+          <span class="tag-dot"></span>
+          Google Drive / Google Sheets
+        </span>
+        <span class="tag">엑셀 파일을 데이터 소스로 활용</span>
+        <span class="tag">백엔드 + 프론트엔드 역할 분리</span>
+      </div>
+    </section>
+
+    <!-- 전체 흐름 요약 -->
+    <section class="section">
+      <h2 class="section-title">전체 흐름 요약</h2>
+      <article class="card table-card">
+        <div class="card-header-row">
+          <div class="card-title">엑셀 → 구글 드라이브 → 백엔드 API → 웹 화면</div>
+          <span class="card-pill">Bird&apos;s-eye View</span>
+        </div>
+        <div class="card-body">
+          <p>
+            Google Drive에 있는 엑셀(또는 구글 시트)을 바로 프론트에서 읽지 않고,
+            <strong>백엔드에서 한 번 가공한 뒤 API로 제공</strong>하는 구조를 기본으로 가정합니다.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>단계</th>
+                <th>구성 요소</th>
+                <th>역할</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1단계</td>
+                <td>Google Drive / Google Sheets</td>
+                <td>엑셀 업로드, 구글 시트 변환, 공유 설정, 파일 ID·시트 이름 정리</td>
+              </tr>
+              <tr>
+                <td>2단계</td>
+                <td>백엔드 서버 (예: Python, Node 등)</td>
+                <td>시트 데이터 읽기, 형 변환, 검증, 캐시/저장, 비즈니스 로직 적용</td>
+              </tr>
+              <tr>
+                <td>3단계</td>
+                <td>API 레이어</td>
+                <td>프론트에서 호출할 REST API(URL, 필터, 페이징 등) 설계</td>
+              </tr>
+              <tr>
+                <td>4단계</td>
+                <td>웹 프론트엔드 (홈페이지)</td>
+                <td>API를 호출해 카드·표·차트 등 UI로 렌더링</td>
+              </tr>
+              <tr>
+                <td>5단계</td>
+                <td>운영·보안</td>
+                <td>권한, 토큰·키 보관, 업데이트 주기, 장애 대응 구조 설계</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="note">
+            <div class="note-title">TIP · 데이터 흐름 생각하기</div>
+            <p>
+              &ldquo;프론트에서 구글 시트 URL을 바로 읽는 구조&rdquo;는 편하지만,
+              <strong>보안/확장성 측면</strong>에서 불리합니다. 팀장님 업무처럼 리스크 관리·내부 데이터가 섞이는 경우엔
+              <strong>항상 백엔드를 거쳐가는 패턴</strong>을 기본으로 두는 게 안전합니다.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- 1단계: Google Drive / 파일 준비 -->
+    <section class="section">
+      <h2 class="section-title">1단계 · Google Drive &amp; 파일 준비</h2>
+      <div class="grid-2">
+        <!-- 1-1. 엑셀 업로드 & 구글 시트 변환 -->
+        <article class="card">
+          <div class="card-header-row">
+            <div class="card-title">1-1. 엑셀 업로드 &amp; 구글 시트로 정리</div>
+            <span class="card-pill">데이터 소스 설계</span>
+          </div>
+          <div class="card-body">
+            <p>
+              <strong>핵심은 &ldquo;머신이 읽기 좋은 시트 구조&rdquo;를 먼저 만들기</strong>입니다.
+            </p>
+            <ul>
+              <li>엑셀 파일을 Google Drive에 업로드합니다.</li>
+              <li>
+                필요하면 <strong>Google Sheets 형식으로 변환</strong>해 관리합니다.
+                (API 사용 시 시트 형식이 더 다루기 편함)
+              </li>
+              <li>
+                열 구조를 단순하게 유지합니다.
+                <ul>
+                  <li>1행: <strong>헤더(필드 이름)</strong></li>
+                  <li>2행 이후: 데이터 행</li>
+                  <li>병합된 셀, 다단 헤더, 중간 합계 행은 최대한 제거</li>
+                </ul>
+              </li>
+              <li>
+                열 이름은 <strong>영문+숫자+언더스코어</strong>로 정리하면 백엔드에서 다루기 편합니다.
+                (예: <code>date</code>, <code>sector</code>, <code>etf_name</code>, <code>aum</code>)
+              </li>
+            </ul>
+            <div class="card-badge-trio">
+              <span class="badge accent">머신 친화적인 구조</span>
+              <span class="badge">병합 셀 최소화</span>
+              <span class="badge">헤더 1줄 고정</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 1-2. 공유 권한 & 파일 ID 정리 -->
+        <article class="card">
+          <div class="card-header-row">
+            <div class="card-title">1-2. 공유 권한 &amp; 파일 ID 관리</div>
+            <span class="card-pill">권한 &amp; 메타데이터</span>
+          </div>
+          <div class="card-body">
+            <p>백엔드에서 접근할 수 있도록 <strong>공유 범위와 ID를 명확히</strong> 정리합니다.</p>
+            <ul>
+              <li>팀 내부/서비스 전용 <strong>Google 계정(또는 서비스 계정)</strong>을 기준으로 공유 설정</li>
+              <li>&ldquo;링크가 있는 모든 사용자&rdquo; 공개는 내부 서비스가 아니면 가급적 사용하지 않기</li>
+              <li>
+                파일 URL에서 <strong>파일 ID</strong>를 추출해 별도 문서/환경변수로 관리
+                <ul>
+                  <li>
+                    예: <code>https://docs.google.com/spreadsheets/d/<strong>파일ID</strong>/edit</code>
+                  </li>
+                  <li>시트 탭 이름도 &ldquo;raw_data&rdquo;, &ldquo;dashboard_view&rdquo; 등으로 명확히</li>
+                </ul>
+              </li>
+              <li>나중에 <strong>시트 구조가 바뀔 수 있음</strong>을 감안해 버전명이나 &ldquo;v1, v2&rdquo; 구분을 고려</li>
+            </ul>
+            <div class="note">
+              <div class="note-title">CHECK</div>
+              <p>
+                백엔드 코드 안에 URL을 직접 박아 넣기보다는, <strong>환경변수(.env)나 설정 파일</strong>에
+                <code>SHEET_FILE_ID</code>, <code>SHEET_NAME</code>처럼 분리해 두는 게 좋습니다.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 2단계: 백엔드에서 시트 읽기 -->
+    <section class="section">
+      <h2 class="section-title">2단계 · 백엔드에서 Google 시트 데이터 읽기</h2>
+      <div class="grid-2">
+        <!-- 2-1. 접근 방식 선택 -->
+        <article class="card">
+          <div class="card-header-row">
+            <div class="card-title">2-1. 데이터 접근 방식 선택</div>
+            <span class="card-pill">API or CSV</span>
+          </div>
+          <div class="card-body">
+            <p>대표적인 접근 방식은 크게 <strong>두 가지</strong>입니다.</p>
+            <ul>
+              <li>
+                <strong>A안: Google Sheets API 사용</strong>
+                <ul>
+                  <li>서비스 계정 또는 OAuth를 이용해 인증</li>
+                  <li>시트 범위(예: <code>Sheet1!A1:F5000</code>)를 지정해 읽기</li>
+                  <li>권한·보안 관리가 상대적으로 명확</li>
+                </ul>
+              </li>
+              <li>
+                <strong>B안: &ldquo;웹에 게시&rdquo;로 CSV/TSV URL 사용</strong>
+                <ul>
+                  <li>구글 시트 &gt; &ldquo;웹에 게시&rdquo; 기능으로 CSV 링크 생성</li>
+                  <li>백엔드에서 HTTP GET으로 CSV 다운로드 후 파싱</li>
+                  <li>간단하지만 링크 노출/권한 관리에 주의 필요</li>
+                </ul>
+              </li>
+            </ul>
+            <p>팀장님처럼 <strong>내부 서비스 + 민감한 데이터</strong>를 다룰 땐 A안(공식 API) 사용이 안전합니다.</p>
+          </div>
+        </article>
+
+        <!-- 2-2. 백엔드 파싱·검증 로직 -->
+        <article class="card">
+          <div class="card-header-row">
+            <div class="card-title">2-2. 파싱, 형 변환, 검증</div>
+            <span class="card-pill">데이터 정제</span>
+          </div>
+          <div class="card-body">
+            <p>
+              시트에서 읽어 온 값은 대부분 <strong>문자열 리스트</strong>이므로, 백엔드에서 한 번 정리해 줍니다.
+            </p>
+            <ul>
+              <li>
+                헤더 행을 기준으로 <strong>JSON 객체</strong>로 매핑
+                <ul>
+                  <li>
+                    <code>{"date": "2025-12-02", "etf_name": "KODEX...", "aum": "1523.4"}</code>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                숫자, 날짜, Boolean 등 <strong>타입 캐스팅</strong>
+                <ul>
+                  <li>빈 값 / &ldquo;-&rdquo; / &ldquo;N/A&rdquo; 처리는 <strong>null</strong> 또는 기본값으로 통일</li>
+                </ul>
+              </li>
+              <li>필수 컬럼 누락 여부, 중복 키, 비정상 값(음수, 범위 초과 등) 검증</li>
+              <li>필요하면 <strong>로깅</strong> (오류 행, 경고 로그)으로 추후 데이터 정제에 활용</li>
+            </ul>
+            <pre><code>// 예: 백엔드에서 프론트로 넘길 JSON 한 행 형태 예시
+
+{
+  "date": "2025-12-02",
+  "sector": "AI / 로봇",
+  "etf_code": "A123456",
+  "etf_name": "KODEX 미국휴머노이드로봇",
+  "aum_bn": 1.52,
+  "1m_return_pct": 8.4
+}
+</code></pre>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 3단계: 캐시 & 동기화 전략 -->
+    <section class="section">
+      <h2 class="section-title">3단계 · 캐시 &amp; 동기화 전략</h2>
+      <article class="card">
+        <div class="card-header-row">
+          <div class="card-title">3-1. 시트와 백엔드 사이 &ldquo;언제 읽을 것인가&rdquo; 결정</div>
+          <span class="card-pill">성능 · 안정성</span>
+        </div>
+        <div class="card-body">
+          <p>
+            Google Sheets를 <strong>매 요청마다 직접 읽으면 느리고 불안정</strong>해질 수 있습니다.
+            보통은 <strong>캐시 또는 백엔드 로컬 저장</strong>을 섞어 씁니다.
+          </p>
+          <ul>
+            <li>
+              <strong>주기적 동기화 (추천)</strong>
+              <ul>
+                <li>예: 5분·10분·1시간 간격으로 시트 → 서버 메모리/DB로 동기화</li>
+                <li>백엔드는 동기화된 데이터만 빠르게 제공</li>
+              </ul>
+            </li>
+            <li>
+              <strong>수동 동기화 버튼</strong> (관리자용)
+              <ul>
+                <li>관리 페이지에서 &ldquo;데이터 새로고침&rdquo; 버튼을 눌러 강제 동기화</li>
+              </ul>
+            </li>
+            <li>
+              <strong>캐시 정책</strong>
+              <ul>
+                <li>메모리 캐시(예: Python이면 전역 변수, Node면 in-memory store) + TTL</li>
+                <li>또는 간단한 SQLite/파일 DB에 JSON 저장 후 읽기</li>
+              </ul>
+            </li>
+          </ul>
+          <div class="note">
+            <div class="note-title">OPERATING TIP</div>
+            <p>
+              팀장님 관점에서는 &ldquo;데이터가 몇 분 단위로 새로 갱신되는지&rdquo;를 명시해 두고,
+              화면 어딘가에 <strong>&ldquo;마지막 업데이트 시각&rdquo;</strong>을 보여주는 게 리스크 관리 보고용으로 좋습니다.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- 4단계: API 설계 -->
+    <section class="section">
+      <h2 class="section-title">4단계 · 백엔드 API 설계</h2>
+      <div class="grid-2">
+        <!-- 4-1. 엔드포인트 기본 설계 -->
+        <article class="card">
+          <div class="card-header-row">
+            <div class="card-title">4-1. 엔드포인트 구조</div>
+            <span class="card-pill">RESTful API</span>
+          </div>
+          <div class="card-body">
+            <p>프론트에서 사용하기 쉽게 <strong>URL·파라미터·응답 구조</strong>를 고정해 둡니다.</p>
+            <ul>
+              <li>
+                예시 엔드포인트
+                <ul>
+                  <li><code>GET /api/etf</code> : 전체 ETF 리스트 조회</li>
+                  <li><code>GET /api/etf?sector=AI&amp;country=US</code> : 필터 조회</li>
+                  <li><code>GET /api/etf/:code</code> : 특정 ETF 상세</li>
+                </ul>
+              </li>
+              <li>
+                공통 응답 포맷
+                <ul>
+                  <li><code>{ "data": [...], "last_updated": "...", "meta": {...} }</code></li>
+                  <li>에러 시 <code>{ "error": { "message": "...", "code": ... } }</code></li>
+                </ul>
+              </li>
+              <li>
+                페이지네이션, 정렬 옵션 설계
+                <ul>
+                  <li><code>?page=1&amp;page_size=20</code>, <code>?sort=aum_bn&amp;order=desc</code></li>
+                </ul>
+              </li>
+            </ul>
+            <pre><code>// 응답 예시(요약)
+
+{
+  "data": [ { ... }, { ... } ],
+  "last_updated": "2025-12-02T09:10:00+09:00",
+  "meta": {
+    "page": 1,
+    "page_size": 20,
+    "total": 85
+  }
+}
+</code></pre>
+          </div>
+        </article>
+
+        <!-- 4-2. 권한 & 보안 처리 -->
+        <article class="card">
+          <div class="card-header-row">
+            <div class="card-title">4-2. 권한, 토큰, 보안</div>
+            <span class="card-pill">Security</span>
+          </div>
+          <div class="card-body">
+            <p>Google API 사용 정보와 내부용 API는 <strong>항상 백엔드 쪽에 숨기기</strong>가 원칙입니다.</p>
+            <ul>
+              <li>
+                Google 서비스 계정 JSON, API 키
+                <ul>
+                  <li>Git에 올리지 말고, 서버 환경변수/시크릿 매니저에 보관</li>
+                </ul>
+              </li>
+              <li>
+                내부용 API라면
+                <ul>
+                  <li>간단한 <strong>API 키 헤더</strong> 또는 <strong>사내 SSO</strong> 연동 고려</li>
+                  <li>IP 화이트리스트(사내망에서만 접근 가능)도 옵션</li>
+                </ul>
+              </li>
+              <li>
+                CORS 정책
+                <ul>
+                  <li>프론트가 배포되는 도메인만 <code>Access-Control-Allow-Origin</code> 허용</li>
+                  <li>테스트 중엔 <code>*</code> 허용, 운영 전엔 도메인 고정</li>
+                </ul>
+              </li>
+            </ul>
+            <div class="note">
+              <div class="note-title">SECURITY NOTE</div>
+              <p>
+                프론트 코드 안에 <strong>Google 시트 링크나 키가 그대로 노출되면,</strong>
+                나중에 URL이 퍼질 수 있습니다. 백엔드에 숨기고, 프론트는
+                <strong>자체 API만 호출</strong>하도록 유지하는 게 안전합니다.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 5단계: 프론트엔드에서 화면 만들기 -->
+    <section class="section">
+      <h2 class="section-title">5단계 · 웹 프론트엔드에서 화면 구성</h2>
+      <div class="grid-2">
+        <!-- 5-1. 데이터 바인딩 & UI 설계 -->
+        <article class="card">
+          <div class="card-header-row">
+            <div class="card-title">5-1. 카드·표·차트에 데이터 바인딩</div>
+            <span class="card-pill">UI &amp; 데이터</span>
+          </div>
+          <div class="card-body">
+            <p>백엔드 API 응답을 받아, <strong>카드/표/차트 레이아웃</strong>에 꽂아 넣는 부분입니다.</p>
+            <ul>
+              <li>
+                <strong>기본 패턴</strong>
+                <ul>
+                  <li>페이지 로드 시 <code>GET /api/... </code> 호출</li>
+                  <li>로딩 상태 표시 (스피너, &ldquo;불러오는 중...&rdquo; 텍스트)</li>
+                  <li>에러 발생 시 사용자 친화적 메시지 + 재시도 버튼</li>
+                </ul>
+              </li>
+              <li>
+                필터/검색/정렬 UI
+                <ul>
+                  <li>섹터, 국가, 위험도, AUM 구간 등 필터를 API 쿼리 파라미터와 연결</li>
+                  <li>정렬 버튼과 컬럼 헤더 클릭 시 정렬 방향 토글</li>
+                </ul>
+              </li>
+              <li>
+                반응형 레이아웃
+                <ul>
+                  <li>데스크톱: 2~3열 카드 그리드 + 오른쪽 요약 패널</li>
+                  <li>모바일: 1열 카드, 표는 좌우 스크롤 또는 요약 카드 형태</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 5-2. 마지막 업데이트, 리스크 뷰 강조 -->
+        <article class="card">
+          <div class="card-header-row">
+            <div class="card-title">5-2. 마지막 업데이트 &amp; 리스크 시그널</div>
+            <span class="card-pill">리포트 친화형 UI</span>
+          </div>
+          <div class="card-body">
+            <p>리스크/리포트 용도로는 <strong>&ldquo;언제 기준 데이터인지&rdquo;</strong>가 특히 중요합니다.</p>
+            <ul>
+              <li>
+                화면 상단 또는 각 카드에
+                <ul>
+                  <li>
+                    <strong>마지막 동기화 시각</strong> 표시<br />
+                    <code>마지막 업데이트: 2025-12-02 09:10 (KST)</code>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                임계치/알람 로직이 있다면
+                <ul>
+                  <li>
+                    위험 구간이면 <span style="color:#f97373;">레드 태그</span>,
+                    관심 구간이면 <span style="color:#fbbf24;">옐로 태그</span> 등으로 시각화
+                  </li>
+                </ul>
+              </li>
+              <li>
+                툴팁/상세 보기
+                <ul>
+                  <li>카드 클릭 시 팝업/슬라이드 패널로 세부 지표·원본 데이터 확인</li>
+                </ul>
+              </li>
+            </ul>
+            <div class="note">
+              <div class="note-title">FOR RISK MANAGEMENT</div>
+              <p>
+                나중에 ALM, 시장리스크, ETF 모니터링 등을 모두 같은 구조로 가져가려면
+                <strong>&ldquo;API 설계 → 화면 구성 패턴&rdquo;을 통일</strong>해 두는 게 좋습니다.
+                데이터 소스(시트)가 바뀌더라도 백엔드 API 형태는 최대한 유지하는 방향으로요.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 6단계: 운영 & 체크리스트 -->
+    <section class="section">
+      <h2 class="section-title">6단계 · 운영 시 체크리스트</h2>
+      <article class="card">
+        <div class="card-header-row">
+          <div class="card-title">운영 관점에서 꼭 한 번씩 점검할 포인트</div>
+          <span class="card-pill">Checklist</span>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>
+              <strong>데이터 구조 변경 관리</strong>
+              <ul>
+                <li>시트에 컬럼 추가/삭제 시, 백엔드 파싱 로직과 화면이 깨지지 않는지</li>
+                <li>가능하면 &ldquo;테스트용 시트&rdquo;에서 먼저 변경 후 운영 시트에 반영</li>
+              </ul>
+            </li>
+            <li>
+              <strong>권한·보안</strong>
+              <ul>
+                <li>시트 공유 대상, 서비스 계정 권한 최소화</li>
+                <li>키/토큰이 노출되지 않도록 Git·프론트 코드 점검</li>
+              </ul>
+            </li>
+            <li>
+              <strong>에러 모니터링</strong>
+              <ul>
+                <li>시트 접근 실패, API 오류, JSON 파싱 오류 등을 로그로 남기기</li>
+                <li>필요하면 슬랙/텔레그램 등으로 간단한 알림 연결</li>
+              </ul>
+            </li>
+            <li>
+              <strong>성능</strong>
+              <ul>
+                <li>행 수가 많아질 때(수만 행 이상) 시트 → DB 이전도 고려</li>
+                <li>필요 데이터만 조회하도록 범위/쿼리 최적화</li>
+              </ul>
+            </li>
+          </ul>
+          <div class="card-badge-trio">
+            <span class="badge accent">시트 구조 변경 시 영향도 체크</span>
+            <span class="badge">키·토큰 Git 노출 방지</span>
+            <span class="badge">로그 &amp; 알림 체계</span>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
