@@ -1,0 +1,19 @@
+{
+  "name": "chartup",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "firebase": "^11.3.1",
+    "node-fetch": "^2.7.0",
+    "docx": "^8.5.0",
+    "sharp": "^0.33.0",
+    "nodemailer": "^6.9.8",
+    "iconv-lite": "^0.6.3",
+    "openai": "^4.76.0"    
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 
