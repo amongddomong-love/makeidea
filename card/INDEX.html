@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>메모리 카드게임</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --bg-alt: #0f1624;
+      --card: #0d1421;
+      --card-front: #131b2e;
+      --card-back: #2563eb;
+      --accent: #60a5fa;
+      --accent-soft: rgba(96, 165, 250, 0.2);
+      --accent-strong: #3b82f6;
+      --accent-glow: rgba(96, 165, 250, 0.4);
+      --text: #f1f5f9;
+      --text-soft: #94a3b8;
+      --danger: #f87171;
+      --radius-lg: 24px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      --shadow-glow: 0 0 40px rgba(96, 165, 250, 0.3);
+      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(59, 130, 246, 0.15), transparent 50%),
+        radial-gradient(circle at 80% 90%, rgba(96, 165, 250, 0.2), transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(30, 58, 138, 0.1), transparent 70%),
+        linear-gradient(135deg, #0a0e1a 0%, #0f1624 50%, #0a0e1a 100%);
+      color: var(--text);
+      font-family: "Spoqa Han Sans Neo", "NanumSquareNeo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main {
+      width: min(900px, 94vw);
+      padding: 32px 32px 36px;
+      border-radius: 32px;
+      background: 
+        linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.75) 100%);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 
+        var(--shadow-soft),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* 세련된 그라데이션 오버레이 */
+    main::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+      opacity: 0.6;
+      pointer-events: none;
+      border-radius: 32px;
+    }
+
+    main::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.02) 50%, transparent 100%);
+      pointer-events: none;
+      border-radius: 32px;
+    }
+
+    main > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .title-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      background: linear-gradient(135deg, rgba(96, 165, 250, 0.15) 0%, rgba(59, 130, 246, 0.1) 100%);
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 2px 8px rgba(96, 165, 250, 0.1);
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--text-soft);
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(10px);
+      font-size: 0.8rem;
+      transition: all var(--transition-fast);
+    }
+
+    .chip:hover {
+      border-color: rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.8);
+      transform: translateY(-1px);
+    }
+
+    .chip-label {
+      color: var(--text-soft);
+      font-weight: 500;
+    }
+
+    .chip-value {
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .chip.best {
+      border-color: rgba(96, 165, 250, 0.5);
+      background: linear-gradient(135deg, rgba(96, 165, 250, 0.2) 0%, rgba(59, 130, 246, 0.15) 100%);
+      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.15);
+    }
+
+    .chip.best:hover {
+      border-color: rgba(96, 165, 250, 0.7);
+      box-shadow: 0 6px 16px rgba(96, 165, 250, 0.25);
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 10px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
+      color: #0f172a;
+      box-shadow: 
+        0 4px 16px rgba(96, 165, 250, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 8px 24px rgba(96, 165, 250, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+    }
+
+    .btn:hover::before {
+      opacity: 1;
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 
+        0 2px 8px rgba(96, 165, 250, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2.3fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 780px) {
+      main {
+        padding: 20px 18px 22px;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .board-wrapper {
+      padding: 20px;
+      border-radius: 24px;
+      background: 
+        radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.18) 0%, transparent 50%),
+        linear-gradient(150deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.6) 100%);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    @media (max-width: 520px) {
+      .board {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .card {
+      position: relative;
+      width: 100%;
+      padding-top: 125%;
+      perspective: 1200px;
+      cursor: pointer;
+    }
+
+    .card-inner {
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      background: transparent;
+      transform-style: preserve-3d;
+      transition: transform var(--transition-slow), box-shadow var(--transition-slow);
+      box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    }
+
+    .card:hover .card-inner:not(.matched) {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 
+        0 12px 32px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    }
+
+    .card.is-flipped .card-inner,
+    .card.matched .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card.matched .card-inner {
+      transform: rotateY(180deg) scale(0.98);
+    }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backface-visibility: hidden;
+      user-select: none;
+    }
+
+    .card-back {
+      background: 
+        linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1e40af 100%);
+      border: 1px solid rgba(191, 219, 254, 0.4);
+      font-size: 1.2rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-back span {
+      font-size: 0.7rem;
+      color: #e0f2fe;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-front {
+      transform: rotateY(180deg);
+      background: 
+        radial-gradient(circle at 30% 0%, rgba(96, 165, 250, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.4) 0%, transparent 60%),
+        linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      font-size: 2.6rem;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .card-front span {
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+      animation: cardReveal 0.3s ease-out;
+    }
+
+    @keyframes cardReveal {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .card.matched .card-inner {
+      box-shadow: 
+        0 0 0 2px rgba(96, 165, 250, 0.6),
+        0 12px 40px rgba(96, 165, 250, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .card.matched .card-front {
+      border-color: rgba(96, 165, 250, 0.7);
+      background: 
+        radial-gradient(circle at 30% 0%, rgba(96, 165, 250, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.5) 0%, transparent 60%),
+        linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+    }
+
+    .card.disabled {
+      pointer-events: none;
+    }
+
+    .side-panel {
+      padding: 20px 22px;
+      border-radius: 24px;
+      background: 
+        radial-gradient(circle at 100% 0%, rgba(96, 165, 250, 0.15) 0%, transparent 50%),
+        linear-gradient(155deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.6) 100%);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 8px 32px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .panel-title {
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .tip-box {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px dashed rgba(96, 165, 250, 0.3);
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      line-height: 1.7;
+      transition: all var(--transition-fast);
+    }
+
+    .tip-box:hover {
+      border-color: rgba(96, 165, 250, 0.5);
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .tip-box strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-soft);
+    }
+
+    .list li::before {
+      content: "•";
+      margin-right: 6px;
+      color: var(--accent);
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(15, 23, 42, 0.6);
+      color: var(--text-soft);
+      transition: all var(--transition-fast);
+    }
+
+    .badge:hover {
+      border-color: rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.8);
+      transform: translateY(-1px);
+    }
+
+    /* 승리 오버레이 */
+    .win-toast {
+      position: fixed;
+      inset: auto 50% 30px;
+      transform: translateX(-50%) translateY(120%);
+      min-width: min(400px, 90vw);
+      padding: 16px 20px;
+      border-radius: 20px;
+      background: 
+        radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.25) 0%, transparent 60%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.9) 100%);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 0.85rem;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 40px rgba(96, 165, 250, 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 50;
+    }
+
+    .win-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    .win-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .win-title {
+      font-weight: 600;
+    }
+
+    .win-sub {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .win-highlight {
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="title-block">
+        <div class="title-row">
+          <h1>블루 메모리 카드게임</h1>
+          <span class="title-tag">casual mode</span>
+        </div>
+        <p class="subtitle">같은 그림 카드를 맞추면서 집중력·순발력을 같이 올려보는 미니 게임입니다.</p>
+      </div>
+      <div class="stats-bar">
+        <div class="chip">
+          <span class="chip-label">턴 수</span>
+          <span class="chip-value" id="moves">0</span>
+        </div>
+        <div class="chip">
+          <span class="chip-label">타이머</span>
+          <span class="chip-value" id="timer">00:00</span>
+        </div>
+        <div class="chip best">
+          <span class="chip-label">최고 기록</span>
+          <span class="chip-value" id="best">--</span>
+        </div>
+        <button class="btn" id="resetBtn">
+          🔄 다시 섞기
+        </button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <section class="board-wrapper">
+        <div class="board" id="board">
+          <!-- JS로 카드가 생성됩니다 -->
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <div>
+          <div class="panel-title">HOW TO PLAY</div>
+          <ul class="list">
+            <li>카드를 하나씩 뒤집어 보면서 <strong>같은 그림 2장</strong>을 찾습니다.</li>
+            <li>첫 카드를 뒤집는 순간부터 <strong>타이머</strong>가 시작됩니다.</li>
+            <li>턴 수는 <strong>두 장을 뒤집을 때마다 1턴</strong>으로 계산됩니다.</li>
+            <li>모든 카드를 맞추면 이번 판 기록이 저장되고, 최고 기록에 도전할 수 있어요.</li>
+          </ul>
+        </div>
+
+        <div class="tip-box">
+          <strong>작은 루틴으로 두뇌 워밍업 🔥</strong><br />
+          출근 전에 한 판, 점심 후에 한 판처럼 가볍게 돌려두면
+          집중력·패턴 인식 감각을 깨우는 데 꽤 도움이 됩니다.
+        </div>
+
+        <div>
+          <div class="panel-title">게임 정보</div>
+          <div class="badge-row">
+            <span class="badge">6쌍 · 총 12장</span>
+            <span class="badge">난이도 · 라이트</span>
+            <span class="badge">로컬 저장 · 최고 기록</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div class="win-toast" id="winToast">
+    <div class="win-main">
+      <span class="win-title">🎉 클리어! 좋은 집중력이었습니다.</span>
+      <span class="win-sub">
+        이번 기록:
+        <span class="win-highlight" id="winStats"></span>
+      </span>
+    </div>
+    <button class="btn" id="toastRestartBtn">다시 한 판</button>
+  </div>
+
+  <script>
+    // 기본 심볼(이모지) 셋
+    const SYMBOLS = ["🍀", "🎈", "🌟", "🔥", "💎", "⚡"];
+
+    const boardEl = document.getElementById("board");
+    const movesEl = document.getElementById("moves");
+    const timerEl = document.getElementById("timer");
+    const bestEl = document.getElementById("best");
+    const resetBtn = document.getElementById("resetBtn");
+    const winToast = document.getElementById("winToast");
+    const winStats = document.getElementById("winStats");
+    const toastRestartBtn = document.getElementById("toastRestartBtn");
+
+    let firstCard = null;
+    let secondCard = null;
+    let lockBoard = false;
+    let moves = 0;
+    let matchedPairs = 0;
+    let timer = 0;
+    let timerInterval = null;
+
+    const BEST_KEY = "blueCardGameBest";
+
+    // 배열 셔플 (Fisher-Yates)
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
+    function startTimer() {
+      if (timerInterval) return;
+      timerInterval = setInterval(() => {
+        timer += 1;
+        timerEl.textContent = formatTime(timer);
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function resetTimer() {
+      stopTimer();
+      timer = 0;
+      timerEl.textContent = "00:00";
+    }
+
+    function loadBestRecord() {
+      const saved = localStorage.getItem(BEST_KEY);
+      if (saved) {
+        try {
+          const { moves: bestMoves, time } = JSON.parse(saved);
+          bestEl.textContent = `${bestMoves}턴 · ${formatTime(time)}`;
+        } catch (e) {
+          bestEl.textContent = "--";
+        }
+      } else {
+        bestEl.textContent = "--";
+      }
+    }
+
+    function saveBestRecord() {
+      const saved = localStorage.getItem(BEST_KEY);
+      const current = { moves, time: timer };
+
+      if (!saved) {
+        localStorage.setItem(BEST_KEY, JSON.stringify(current));
+        bestEl.textContent = `${moves}턴 · ${formatTime(timer)}`;
+        return;
+      }
+
+      try {
+        const prev = JSON.parse(saved);
+        // 기본 기준: 턴 수 우선, 같으면 시간으로 비교
+        if (
+          moves < prev.moves ||
+          (moves === prev.moves && timer < prev.time)
+        ) {
+          localStorage.setItem(BEST_KEY, JSON.stringify(current));
+          bestEl.textContent = `${moves}턴 · ${formatTime(timer)}`;
+        }
+      } catch {
+        localStorage.setItem(BEST_KEY, JSON.stringify(current));
+        bestEl.textContent = `${moves}턴 · ${formatTime(timer)}`;
+      }
+    }
+
+    function showWinToast() {
+      winStats.textContent = `${moves}턴 · ${formatTime(timer)}`;
+      winToast.classList.add("show");
+      setTimeout(() => {
+        winToast.classList.remove("show");
+      }, 6000);
+    }
+
+    function hideWinToast() {
+      winToast.classList.remove("show");
+    }
+
+    function createCardElement(symbol, index) {
+      const card = document.createElement("button");
+      card.className = "card";
+      card.type = "button";
+      card.dataset.symbol = symbol;
+      card.dataset.index = String(index);
+
+      const inner = document.createElement("div");
+      inner.className = "card-inner";
+
+      const back = document.createElement("div");
+      back.className = "card-face card-back";
+      const backSpan = document.createElement("span");
+      backSpan.textContent = "FLIP";
+      back.appendChild(backSpan);
+
+      const front = document.createElement("div");
+      front.className = "card-face card-front";
+      const frontSpan = document.createElement("span");
+      frontSpan.textContent = symbol;
+      front.appendChild(frontSpan);
+
+      inner.appendChild(back);
+      inner.appendChild(front);
+      card.appendChild(inner);
+
+      card.addEventListener("click", () => onCardClick(card));
+      return card;
+    }
+
+    function onCardClick(card) {
+      if (lockBoard) return;
+      if (card.classList.contains("is-flipped") || card.classList.contains("matched")) {
+        return;
+      }
+
+      // 첫 클릭 시 타이머 시작
+      if (moves === 0 && !firstCard && timer === 0) {
+        startTimer();
+      }
+
+      card.classList.add("is-flipped");
+
+      if (!firstCard) {
+        firstCard = card;
+        return;
+      }
+
+      secondCard = card;
+      lockBoard = true;
+      moves += 1;
+      movesEl.textContent = String(moves);
+
+      const isMatch = firstCard.dataset.symbol === secondCard.dataset.symbol;
+
+      if (isMatch) {
+        handleMatch();
+      } else {
+        handleMismatch();
+      }
+    }
+
+    function handleMatch() {
+      firstCard.classList.add("matched");
+      secondCard.classList.add("matched");
+      matchedPairs += 1;
+      resetTurnState();
+
+      if (matchedPairs === SYMBOLS.length) {
+        // 게임 클리어
+        stopTimer();
+        saveBestRecord();
+        showWinToast();
+      }
+    }
+
+    function handleMismatch() {
+      setTimeout(() => {
+        firstCard.classList.remove("is-flipped");
+        secondCard.classList.remove("is-flipped");
+        resetTurnState();
+      }, 800);
+    }
+
+    function resetTurnState() {
+      [firstCard, secondCard] = [null, null];
+      lockBoard = false;
+    }
+
+    function initGame() {
+      hideWinToast();
+      resetTimer();
+      moves = 0;
+      matchedPairs = 0;
+      movesEl.textContent = "0";
+
+      const deck = shuffle([...SYMBOLS, ...SYMBOLS]);
+      boardEl.innerHTML = "";
+
+      deck.forEach((symbol, idx) => {
+        const cardEl = createCardElement(symbol, idx);
+        boardEl.appendChild(cardEl);
+      });
+    }
+
+    // 초기화
+    document.addEventListener("DOMContentLoaded", () => {
+      loadBestRecord();
+      initGame();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      initGame();
+    });
+
+    toastRestartBtn.addEventListener("click", () => {
+      initGame();
+      hideWinToast();
+    });
+  </script>
+</body>
+</html>
