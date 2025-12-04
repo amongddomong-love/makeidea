@@ -1,27 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>메모리 카드게임</title>
+  <title>메모리 카드 게임</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      --bg: #0a0e1a;
-      --bg-alt: #0f1624;
-      --card: #0d1421;
-      --card-front: #131b2e;
-      --card-back: #2563eb;
-      --accent: #60a5fa;
-      --accent-soft: rgba(96, 165, 250, 0.2);
-      --accent-strong: #3b82f6;
-      --accent-glow: rgba(96, 165, 250, 0.4);
-      --text: #f1f5f9;
-      --text-soft: #94a3b8;
-      --danger: #f87171;
-      --radius-lg: 24px;
+      --bg: #f6f8fb;
+      --bg-alt: #ffffff;
+      --card: #ffffff;
+      --card-front: #f1f4fa;
+      --card-back: #e8edfb;
+      --accent: #5c7cfa;
+      --accent-strong: #4158f5;
+      --accent-soft: rgba(92, 124, 250, 0.12);
+      --text: #1f2937;
+      --text-soft: #6b7280;
+      --border: #e5e7eb;
+      --radius-lg: 22px;
       --radius-pill: 999px;
-      --shadow-soft: 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
-      --shadow-glow: 0 0 40px rgba(96, 165, 250, 0.3);
+      --shadow-soft: 0 20px 60px rgba(15, 23, 42, 0.08), 0 1px 0 rgba(255, 255, 255, 0.6);
+      --shadow-card: 0 10px 30px rgba(15, 23, 42, 0.08);
       --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       --transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -38,10 +37,9 @@
       align-items: center;
       justify-content: center;
       background:
-        radial-gradient(circle at 20% 10%, rgba(59, 130, 246, 0.15), transparent 50%),
-        radial-gradient(circle at 80% 90%, rgba(96, 165, 250, 0.2), transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(30, 58, 138, 0.1), transparent 70%),
-        linear-gradient(135deg, #0a0e1a 0%, #0f1624 50%, #0a0e1a 100%);
+        radial-gradient(circle at 15% 10%, rgba(92, 124, 250, 0.12), transparent 40%),
+        radial-gradient(circle at 80% 85%, rgba(92, 124, 250, 0.1), transparent 45%),
+        linear-gradient(160deg, #f9fbff 0%, #f3f6fb 45%, #fdfefe 100%);
       color: var(--text);
       font-family: "Spoqa Han Sans Neo", "NanumSquareNeo", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       position: relative;
@@ -52,50 +50,43 @@
       content: "";
       position: fixed;
       inset: 0;
-      background-image: 
-        radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.03) 1px, transparent 0);
-      background-size: 40px 40px;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(65, 88, 245, 0.14) 1px, transparent 0);
+      background-size: 48px 48px;
       pointer-events: none;
       z-index: 0;
+      opacity: 0.3;
     }
 
     main {
-      width: min(900px, 94vw);
-      padding: 32px 32px 36px;
-      border-radius: 32px;
-      background: 
-        linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.75) 100%);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      box-shadow: 
-        var(--shadow-soft),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: min(920px, 94vw);
+      padding: 30px 30px 34px;
+      border-radius: 30px;
+      background: var(--bg-alt);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.8);
       position: relative;
       overflow: hidden;
       z-index: 1;
     }
 
-    /* 세련된 그라데이션 오버레이 */
     main::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: 
-        radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
-      opacity: 0.6;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(92, 124, 250, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(92, 124, 250, 0.12) 0%, transparent 45%);
       pointer-events: none;
-      border-radius: 32px;
+      opacity: 0.65;
     }
 
     main::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.02) 50%, transparent 100%);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, transparent 60%);
       pointer-events: none;
-      border-radius: 32px;
     }
 
     main > * {
@@ -108,7 +99,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
     }
 
     .title-block {
@@ -124,31 +116,28 @@
     }
 
     h1 {
-      font-size: 1.75rem;
-      font-weight: 700;
+      font-size: 1.7rem;
+      font-weight: 800;
       letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #111827;
     }
 
     .title-tag {
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 6px 12px;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(96, 165, 250, 0.3);
-      background: linear-gradient(135deg, rgba(96, 165, 250, 0.15) 0%, rgba(59, 130, 246, 0.1) 100%);
-      color: var(--accent);
+      border: 1px solid rgba(92, 124, 250, 0.2);
+      background: linear-gradient(135deg, rgba(92, 124, 250, 0.15) 0%, rgba(92, 124, 250, 0.05) 100%);
+      color: var(--accent-strong);
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      box-shadow: 0 2px 8px rgba(96, 165, 250, 0.1);
     }
 
     .subtitle {
-      font-size: 0.85rem;
+      font-size: 0.92rem;
       color: var(--text-soft);
+      line-height: 1.5;
     }
 
     .stats-bar {
@@ -163,56 +152,49 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 14px;
+      padding: 9px 14px;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(10px);
-      font-size: 0.8rem;
+      border: 1px solid var(--border);
+      background: #f7f9ff;
+      font-size: 0.82rem;
       transition: all var(--transition-fast);
+      box-shadow: 0 8px 20px rgba(17, 24, 39, 0.05);
     }
 
     .chip:hover {
-      border-color: rgba(148, 163, 184, 0.4);
-      background: rgba(15, 23, 42, 0.8);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      border-color: rgba(92, 124, 250, 0.25);
+      box-shadow: 0 12px 26px rgba(17, 24, 39, 0.07);
     }
 
     .chip-label {
       color: var(--text-soft);
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .chip-value {
       font-variant-numeric: tabular-nums;
-      font-weight: 600;
-      color: var(--text);
+      font-weight: 700;
+      color: #111827;
     }
 
     .chip.best {
-      border-color: rgba(96, 165, 250, 0.5);
-      background: linear-gradient(135deg, rgba(96, 165, 250, 0.2) 0%, rgba(59, 130, 246, 0.15) 100%);
-      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.15);
-    }
-
-    .chip.best:hover {
-      border-color: rgba(96, 165, 250, 0.7);
-      box-shadow: 0 6px 16px rgba(96, 165, 250, 0.25);
+      background: linear-gradient(135deg, #f4f6ff 0%, #f7f9ff 100%);
+      border-color: rgba(92, 124, 250, 0.35);
+      color: #111827;
     }
 
     .btn {
       border: none;
       outline: none;
       cursor: pointer;
-      padding: 10px 20px;
+      padding: 11px 20px;
       border-radius: var(--radius-pill);
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.9rem;
+      font-weight: 700;
       background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
-      color: #0f172a;
-      box-shadow: 
-        0 4px 16px rgba(96, 165, 250, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(65, 88, 245, 0.25);
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -233,9 +215,7 @@
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 
-        0 8px 24px rgba(96, 165, 250, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+      box-shadow: 0 14px 34px rgba(65, 88, 245, 0.3);
     }
 
     .btn:hover::before {
@@ -243,10 +223,8 @@
     }
 
     .btn:active {
-      transform: translateY(0) scale(0.98);
-      box-shadow: 
-        0 2px 8px rgba(96, 165, 250, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      transform: translateY(0) scale(0.99);
+      box-shadow: 0 6px 16px rgba(65, 88, 245, 0.26);
     }
 
     .layout {
@@ -254,11 +232,12 @@
       grid-template-columns: minmax(0, 2.3fr) minmax(0, 1fr);
       gap: 18px;
       align-items: flex-start;
+      margin-top: 6px;
     }
 
     @media (max-width: 780px) {
       main {
-        padding: 20px 18px 22px;
+        padding: 22px 18px 24px;
       }
       header {
         flex-direction: column;
@@ -270,18 +249,11 @@
     }
 
     .board-wrapper {
-      padding: 20px;
-      border-radius: 24px;
-      background: 
-        radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.18) 0%, transparent 50%),
-        linear-gradient(150deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.6) 100%);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 8px 32px rgba(0, 0, 0, 0.3);
+      padding: 18px;
+      border-radius: 22px;
+      background: linear-gradient(145deg, #ffffff 0%, #f5f7fc 100%);
+      border: 1px solid #eef1f6;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 12px 32px rgba(15, 23, 42, 0.06);
     }
 
     .board {
@@ -307,20 +279,16 @@
     .card-inner {
       position: absolute;
       inset: 0;
-      border-radius: 18px;
+      border-radius: 16px;
       background: transparent;
       transform-style: preserve-3d;
       transition: transform var(--transition-slow), box-shadow var(--transition-slow);
-      box-shadow: 
-        0 8px 24px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+      box-shadow: var(--shadow-card);
     }
 
     .card:hover .card-inner:not(.matched) {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 
-        0 12px 32px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
     }
 
     .card.is-flipped .card-inner,
@@ -329,60 +297,56 @@
     }
 
     .card.matched .card-inner {
-      transform: rotateY(180deg) scale(0.98);
+      transform: rotateY(180deg) scale(0.99);
     }
 
     .card-face {
       position: absolute;
       inset: 0;
-      border-radius: 16px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       backface-visibility: hidden;
       user-select: none;
+      border: 1px solid var(--border);
     }
 
     .card-back {
-      background: 
-        linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1e40af 100%);
-      border: 1px solid rgba(191, 219, 254, 0.4);
-      font-size: 1.2rem;
-      letter-spacing: 0.15em;
+      background:
+        linear-gradient(135deg, rgba(92, 124, 250, 0.16), rgba(92, 124, 250, 0.3)),
+        var(--card-back);
+      font-size: 1.1rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      color: #2c3a76;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
     }
 
     .card-back span {
-      font-size: 0.7rem;
-      color: #e0f2fe;
-      font-weight: 600;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      font-size: 0.72rem;
+      font-weight: 700;
     }
 
     .card-front {
       transform: rotateY(180deg);
-      background: 
-        radial-gradient(circle at 30% 0%, rgba(96, 165, 250, 0.25) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.4) 0%, transparent 60%),
-        linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      font-size: 2.6rem;
-      box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      background:
+        radial-gradient(circle at 30% 0%, rgba(92, 124, 250, 0.14) 0%, transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(92, 124, 250, 0.18) 0%, transparent 60%),
+        var(--card);
+      border-color: #dfe3ec;
+      font-size: 2.4rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
     }
 
     .card-front span {
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
-      animation: cardReveal 0.3s ease-out;
+      filter: drop-shadow(0 3px 8px rgba(17, 24, 39, 0.12));
+      animation: cardReveal 0.28s ease-out;
     }
 
     @keyframes cardReveal {
       from {
-        transform: scale(0.8);
+        transform: scale(0.9);
         opacity: 0;
       }
       to {
@@ -392,18 +356,18 @@
     }
 
     .card.matched .card-inner {
-      box-shadow: 
-        0 0 0 2px rgba(96, 165, 250, 0.6),
-        0 12px 40px rgba(96, 165, 250, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      box-shadow:
+        0 0 0 2px rgba(92, 124, 250, 0.25),
+        0 14px 30px rgba(92, 124, 250, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
     }
 
     .card.matched .card-front {
-      border-color: rgba(96, 165, 250, 0.7);
-      background: 
-        radial-gradient(circle at 30% 0%, rgba(96, 165, 250, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.5) 0%, transparent 60%),
-        linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+      border-color: rgba(92, 124, 250, 0.55);
+      background:
+        radial-gradient(circle at 30% 0%, rgba(92, 124, 250, 0.18) 0%, transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(92, 124, 250, 0.22) 0%, transparent 60%),
+        var(--card);
     }
 
     .card.disabled {
@@ -411,17 +375,11 @@
     }
 
     .side-panel {
-      padding: 20px 22px;
-      border-radius: 24px;
-      background: 
-        radial-gradient(circle at 100% 0%, rgba(96, 165, 250, 0.15) 0%, transparent 50%),
-        linear-gradient(155deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 23, 42, 0.6) 100%);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 8px 32px rgba(0, 0, 0, 0.3);
+      padding: 18px 20px;
+      border-radius: 22px;
+      background: linear-gradient(160deg, #ffffff 0%, #f7f9ff 100%);
+      border: 1px solid #eef1f6;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 12px 32px rgba(15, 23, 42, 0.06);
       display: flex;
       flex-direction: column;
       gap: 18px;
@@ -432,27 +390,29 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: var(--text-soft);
+      font-weight: 700;
     }
 
     .tip-box {
       padding: 14px 16px;
       border-radius: 16px;
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px dashed rgba(96, 165, 250, 0.3);
-      font-size: 0.8rem;
+      background: #f4f6fb;
+      border: 1px dashed rgba(92, 124, 250, 0.3);
+      font-size: 0.85rem;
       color: var(--text-soft);
       line-height: 1.7;
       transition: all var(--transition-fast);
     }
 
     .tip-box:hover {
-      border-color: rgba(96, 165, 250, 0.5);
-      background: rgba(15, 23, 42, 0.8);
+      border-color: rgba(92, 124, 250, 0.5);
+      background: #eef2fc;
+      transform: translateY(-1px);
     }
 
     .tip-box strong {
-      color: var(--accent);
-      font-weight: 600;
+      color: var(--accent-strong);
+      font-weight: 700;
     }
 
     .list {
@@ -460,14 +420,22 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      font-size: 0.82rem;
+      font-size: 0.9rem;
       color: var(--text-soft);
+    }
+
+    .list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      line-height: 1.6;
     }
 
     .list li::before {
       content: "•";
-      margin-right: 6px;
-      color: var(--accent);
+      color: var(--accent-strong);
+      font-weight: 700;
+      margin-top: 1px;
     }
 
     .badge-row {
@@ -478,46 +446,38 @@
     }
 
     .badge {
-      font-size: 0.72rem;
-      font-weight: 500;
-      padding: 5px 11px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 6px 12px;
       border-radius: var(--radius-pill);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      background: #f6f8fb;
       color: var(--text-soft);
       transition: all var(--transition-fast);
     }
 
     .badge:hover {
-      border-color: rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.8);
+      border-color: rgba(92, 124, 250, 0.3);
+      color: #374151;
       transform: translateY(-1px);
     }
 
-    /* 승리 오버레이 */
     .win-toast {
       position: fixed;
       inset: auto 50% 30px;
       transform: translateX(-50%) translateY(120%);
-      min-width: min(400px, 90vw);
+      min-width: min(420px, 92vw);
       padding: 16px 20px;
-      border-radius: 20px;
-      background: 
-        radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.25) 0%, transparent 60%),
-        linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.9) 100%);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid rgba(96, 165, 250, 0.4);
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid #e8ebf3;
       color: var(--text);
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      font-size: 0.85rem;
-      box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-        0 0 40px rgba(96, 165, 250, 0.3);
+      font-size: 0.9rem;
+      box-shadow: 0 16px 46px rgba(15, 23, 42, 0.12), 0 1px 0 rgba(255, 255, 255, 0.9);
       opacity: 0;
       pointer-events: none;
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -537,17 +497,18 @@
     }
 
     .win-title {
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .win-sub {
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       color: var(--text-soft);
     }
 
     .win-highlight {
-      color: var(--accent);
+      color: var(--accent-strong);
       font-variant-numeric: tabular-nums;
+      font-weight: 700;
     }
   </style>
 </head>
@@ -556,14 +517,14 @@
     <header>
       <div class="title-block">
         <div class="title-row">
-          <h1>블루 메모리 카드게임</h1>
+          <h1>화이트 메모리 카드 게임</h1>
           <span class="title-tag">casual mode</span>
         </div>
-        <p class="subtitle">같은 그림 카드를 맞추면서 집중력·순발력을 같이 올려보는 미니 게임입니다.</p>
+        <p class="subtitle">같은 그림 카드끼리 짝을 맞추며 집중력과 순발력을 테스트하는 미니 게임입니다.</p>
       </div>
       <div class="stats-bar">
         <div class="chip">
-          <span class="chip-label">턴 수</span>
+          <span class="chip-label">이동</span>
           <span class="chip-value" id="moves">0</span>
         </div>
         <div class="chip">
@@ -575,7 +536,7 @@
           <span class="chip-value" id="best">--</span>
         </div>
         <button class="btn" id="resetBtn">
-          🔄 다시 섞기
+          새로 시작하기
         </button>
       </div>
     </header>
@@ -583,32 +544,31 @@
     <div class="layout">
       <section class="board-wrapper">
         <div class="board" id="board">
-          <!-- JS로 카드가 생성됩니다 -->
+          <!-- JS가 카드 생성 -->
         </div>
       </section>
 
       <aside class="side-panel">
         <div>
-          <div class="panel-title">HOW TO PLAY</div>
+          <div class="panel-title">How To Play</div>
           <ul class="list">
-            <li>카드를 하나씩 뒤집어 보면서 <strong>같은 그림 2장</strong>을 찾습니다.</li>
-            <li>첫 카드를 뒤집는 순간부터 <strong>타이머</strong>가 시작됩니다.</li>
-            <li>턴 수는 <strong>두 장을 뒤집을 때마다 1턴</strong>으로 계산됩니다.</li>
-            <li>모든 카드를 맞추면 이번 판 기록이 저장되고, 최고 기록에 도전할 수 있어요.</li>
+            <li>카드를 눌러 뒤집고 <strong>같은 그림 2장</strong>을 찾습니다.</li>
+            <li>첫 카드를 뒤집는 순간부터 <strong>타이머</strong>가 작동합니다.</li>
+            <li>움직임은 <strong>짝을 뒤집을 때마다 1회</strong>로 계산됩니다.</li>
+            <li>모든 카드를 맞추면 이번 기록과 최고 기록을 비교해 저장합니다.</li>
           </ul>
         </div>
 
         <div class="tip-box">
-          <strong>작은 루틴으로 두뇌 워밍업 🔥</strong><br />
-          출근 전에 한 판, 점심 후에 한 판처럼 가볍게 돌려두면
-          집중력·패턴 인식 감각을 깨우는 데 꽤 도움이 됩니다.
+          <strong>시선을 넓게 움직이며 기억하기</strong><br />
+          주변 카드의 위치와 색을 부드럽게 스캔하면 집중력과 패턴 감각을 더 쉽게 유지할 수 있어요.
         </div>
 
         <div>
           <div class="panel-title">게임 정보</div>
           <div class="badge-row">
             <span class="badge">6쌍 · 총 12장</span>
-            <span class="badge">난이도 · 라이트</span>
+            <span class="badge">쉬움 · 캐주얼</span>
             <span class="badge">로컬 저장 · 최고 기록</span>
           </div>
         </div>
@@ -618,18 +578,17 @@
 
   <div class="win-toast" id="winToast">
     <div class="win-main">
-      <span class="win-title">🎉 클리어! 좋은 집중력이었습니다.</span>
+      <span class="win-title">축하합니다! 멋진 집중력이네요.</span>
       <span class="win-sub">
         이번 기록:
         <span class="win-highlight" id="winStats"></span>
       </span>
     </div>
-    <button class="btn" id="toastRestartBtn">다시 한 판</button>
+    <button class="btn" id="toastRestartBtn">다시 플레이</button>
   </div>
 
   <script>
-    // 기본 심볼(이모지) 셋
-    const SYMBOLS = ["🍀", "🎈", "🌟", "🔥", "💎", "⚡"];
+    const SYMBOLS = ["🌿", "🌸", "⭐", "🍊", "🌙", "💎"];
 
     const boardEl = document.getElementById("board");
     const movesEl = document.getElementById("moves");
@@ -650,7 +609,6 @@
 
     const BEST_KEY = "blueCardGameBest";
 
-    // 배열 셔플 (Fisher-Yates)
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -691,7 +649,7 @@
       if (saved) {
         try {
           const { moves: bestMoves, time } = JSON.parse(saved);
-          bestEl.textContent = `${bestMoves}턴 · ${formatTime(time)}`;
+          bestEl.textContent = `${bestMoves}회 ${formatTime(time)}`;
         } catch (e) {
           bestEl.textContent = "--";
         }
@@ -706,28 +664,27 @@
 
       if (!saved) {
         localStorage.setItem(BEST_KEY, JSON.stringify(current));
-        bestEl.textContent = `${moves}턴 · ${formatTime(timer)}`;
+        bestEl.textContent = `${moves}회 ${formatTime(timer)}`;
         return;
       }
 
       try {
         const prev = JSON.parse(saved);
-        // 기본 기준: 턴 수 우선, 같으면 시간으로 비교
         if (
           moves < prev.moves ||
           (moves === prev.moves && timer < prev.time)
         ) {
           localStorage.setItem(BEST_KEY, JSON.stringify(current));
-          bestEl.textContent = `${moves}턴 · ${formatTime(timer)}`;
+          bestEl.textContent = `${moves}회 ${formatTime(timer)}`;
         }
       } catch {
         localStorage.setItem(BEST_KEY, JSON.stringify(current));
-        bestEl.textContent = `${moves}턴 · ${formatTime(timer)}`;
+        bestEl.textContent = `${moves}회 ${formatTime(timer)}`;
       }
     }
 
     function showWinToast() {
-      winStats.textContent = `${moves}턴 · ${formatTime(timer)}`;
+      winStats.textContent = `${moves}회 ${formatTime(timer)}`;
       winToast.classList.add("show");
       setTimeout(() => {
         winToast.classList.remove("show");
@@ -774,7 +731,6 @@
         return;
       }
 
-      // 첫 클릭 시 타이머 시작
       if (moves === 0 && !firstCard && timer === 0) {
         startTimer();
       }
@@ -807,7 +763,6 @@
       resetTurnState();
 
       if (matchedPairs === SYMBOLS.length) {
-        // 게임 클리어
         stopTimer();
         saveBestRecord();
         showWinToast();
@@ -819,7 +774,7 @@
         firstCard.classList.remove("is-flipped");
         secondCard.classList.remove("is-flipped");
         resetTurnState();
-      }, 800);
+      }, 750);
     }
 
     function resetTurnState() {
@@ -843,7 +798,6 @@
       });
     }
 
-    // 초기화
     document.addEventListener("DOMContentLoaded", () => {
       loadBestRecord();
       initGame();
