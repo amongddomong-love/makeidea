@@ -1,0 +1,4 @@
+  File "C:\Users\amongpapa\chartup\go_scen\data\histo_ticker.py", line 2293
+    from __future__ import annotations
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: from __future__ imports must occur at the beginning of the file

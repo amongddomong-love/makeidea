@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>채권 선도거래(Bond Forward) 상품 안내</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #030712;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.18);
+      --accent-strong: #0ea5e9;
+      --card: rgba(15, 23, 42, 0.96);
+      --card-soft: rgba(15, 23, 42, 0.88);
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --muted: #6b7280;
+      --tag-bg: rgba(15, 23, 42, 0.9);
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Spoqa Han Sans Neo", "SUIT", sans-serif;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(37, 99, 235, 0.18), transparent 55%),
+        linear-gradient(135deg, #020617, #020617 35%, #020617 80%, #020617);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 24px 12px 40px;
+    }
+
+    .page-shell {
+      width: 100%;
+      max-width: 1120px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ─────────────────────────────
+       HERO (상단 상품 요약 영역)
+       ───────────────────────────── */
+    .product-hero {
+      width: 100%;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .product-hero::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background:
+        linear-gradient(120deg, rgba(56, 189, 248, 0.2), transparent 18%, transparent 82%, rgba(59, 130, 246, 0.25)),
+        linear-gradient(180deg, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.9));
+      border-radius: 28px;
+      opacity: 0.85;
+      z-index: -2;
+    }
+
+    .product-hero::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 26px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.96));
+      box-shadow: var(--shadow-soft);
+      z-index: -1;
+    }
+
+    .product-hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
+      gap: 20px;
+      padding: 26px 24px;
+    }
+
+    .hero-header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .product-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .product-tag {
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      background: radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.16), rgba(15, 23, 42, 0.96));
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .product-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent-strong);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.35);
+    }
+
+    .product-badge {
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      color: var(--text-soft);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .hero-title {
+      font-size: clamp(22px, 3vw, 26px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: baseline;
+    }
+
+    .hero-title span.en {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent);
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      color: var(--text-soft);
+      max-width: 520px;
+      line-height: 1.5;
+    }
+
+    .hero-highlights {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .highlight-card {
+      padding: 10px 11px;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: linear-gradient(140deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .highlight-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .highlight-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .highlight-desc {
+      font-size: 11px;
+      color: var(--text-soft);
+      line-height: 1.4;
+    }
+
+    .hero-side-card {
+      border-radius: 18px;
+      background: linear-gradient(150deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 16px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .side-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .side-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-soft);
+    }
+
+    .risk-chip {
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      border: 1px solid rgba(248, 250, 252, 0.35);
+      background: radial-gradient(circle at 0 0, rgba(248, 113, 113, 0.22), rgba(15, 23, 42, 0.96));
+      color: #fecaca;
+    }
+
+    .side-card-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .side-card-table tr + tr {
+      border-top: 1px dashed rgba(51, 65, 85, 0.8);
+    }
+
+    .side-card-table th,
+    .side-card-table td {
+      padding: 6px 3px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .side-card-table th {
+      width: 34%;
+      font-weight: 500;
+      color: var(--muted);
+      padding-right: 8px;
+    }
+
+    .side-card-table td {
+      color: var(--text);
+    }
+
+    .side-card-footnote {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .side-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .side-tag {
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      background: var(--tag-bg);
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    /* ─────────────────────────────
+       본문 섹션 공통 스타일
+       ───────────────────────────── */
+    .product-body {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .product-section {
+      border-radius: 20px;
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.08), transparent 55%),
+                  radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.09), transparent 55%),
+                  linear-gradient(145deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(30, 64, 175, 0.6);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+      padding: 18px 18px 16px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .section-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--text-soft);
+      max-width: 460px;
+      line-height: 1.45;
+    }
+
+    .badge-outline {
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    /* ─ 상품 구조 섹션 ─ */
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .info-card {
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.96);
+      padding: 12px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .info-card-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .info-card-text {
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.55;
+    }
+
+    .info-bullet-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .info-bullet-list li {
+      font-size: 12px;
+      color: var(--text-soft);
+      position: relative;
+      padding-left: 12px;
+    }
+
+    .info-bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-size: 11px;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .info-table tr + tr {
+      border-top: 1px solid rgba(30, 64, 175, 0.6);
+    }
+
+    .info-table th,
+    .info-table td {
+      padding: 6px 4px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .info-table th {
+      width: 34%;
+      font-weight: 500;
+      color: var(--muted);
+      padding-right: 10px;
+      white-space: nowrap;
+    }
+
+    .info-table td {
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .info-footnote {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    /* ─ 손익 구조 & 예시 ─ */
+    .payoff-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap: 14px;
+    }
+
+    .formula-block {
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    .formula-inline {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      font-size: 11px;
+      color: var(--accent);
+      margin: 0 2px;
+    }
+
+    .payoff-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    .payoff-tag {
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-soft);
+    }
+
+    .payoff-example-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .payoff-example-table thead {
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .payoff-example-table th,
+    .payoff-example-table td {
+      padding: 6px 4px;
+      text-align: center;
+    }
+
+    .payoff-example-table th {
+      font-weight: 500;
+      color: var(--muted);
+      border-bottom: 1px solid rgba(30, 64, 175, 0.7);
+    }
+
+    .payoff-example-table td {
+      border-bottom: 1px solid rgba(30, 64, 175, 0.45);
+    }
+
+    .payoff-example-table tr.highlight {
+      background: radial-gradient(circle at 50% 0, rgba(56, 189, 248, 0.12), transparent 60%);
+    }
+
+    .pill-long {
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      background: rgba(22, 163, 74, 0.18);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.6);
+    }
+
+    .pill-short {
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      background: rgba(239, 68, 68, 0.14);
+      color: #fecaca;
+      border: 1px solid rgba(248, 113, 113, 0.5);
+    }
+
+    /* ─ 활용 시나리오 & 리스크 ─ */
+    .cards-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .scenario-card {
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: linear-gradient(150deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 0.94));
+      padding: 10px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .scenario-kicker {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .scenario-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .scenario-text {
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    .risk-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 4px;
+      padding-left: 0;
+    }
+
+    .risk-list li {
+      font-size: 12px;
+      color: var(--text-soft);
+      padding-left: 12px;
+      position: relative;
+    }
+
+    .risk-list li::before {
+      content: "!";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 10px;
+      color: #f97373;
+    }
+
+    /* ─ FAQ ─ */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    details.faq-item {
+      border-radius: 14px;
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      background: rgba(15, 23, 42, 0.98);
+      padding: 8px 10px;
+    }
+
+    details.faq-item[open] {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.98));
+    }
+
+    summary.faq-summary {
+      list-style: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--text);
+    }
+
+    summary.faq-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-icon {
+      font-size: 16px;
+      color: var(--accent);
+    }
+
+    .faq-body {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    /* ─ 반응형 ─ */
+    @media (max-width: 840px) {
+      body {
+        padding: 16px 10px 28px;
+      }
+
+      .product-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 18px 16px 16px;
+        gap: 16px;
+      }
+
+      .hero-highlights {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section-grid,
+      .payoff-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .cards-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero-highlights {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .cards-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page-shell">
+    <!-- ─────────────────────────────
+         상단 상품 요약 HERO
+         ───────────────────────────── -->
+    <section class="product-hero">
+      <div class="product-hero-inner">
+        <!-- 왼쪽: 타이틀 & 핵심 포인트 -->
+        <div>
+          <div class="hero-header">
+            <div class="product-pill-row">
+              <div class="product-tag">
+                <span class="product-tag-dot"></span>
+                FIXED INCOME · OTC DERIVATIVE
+              </div>
+              <div class="product-badge">기관·전문투자자 전용</div>
+            </div>
+            <h1 class="hero-title">
+              채권 선도거래
+              <span class="en">Bond Forward</span>
+            </h1>
+            <p class="hero-subtitle">
+              미래 시점의 채권 매매가격을 오늘 확정하여 금리 및 채권가격 변동 리스크를 관리하는 장외파생상품입니다.
+              보유채권 헤지부터 향후 채권 매입·매도 시점의 가격 잠금까지, ALM·트레이딩 관점에서 폭넓게 활용됩니다.
+            </p>
+          </div>
+
+          <div class="hero-highlights">
+            <article class="highlight-card">
+              <div class="highlight-label">상품 포인트</div>
+              <div class="highlight-value">미래 금리·가격 사전 확정</div>
+              <div class="highlight-desc">
+                향후 채권 매입·매도 가격을 미리 확정하여, 금리 변동에 따른 손익의 불확실성을 줄일 수 있습니다.
+              </div>
+            </article>
+
+            <article class="highlight-card">
+              <div class="highlight-label">주요 활용</div>
+              <div class="highlight-value">헤지 & 전략적 포지셔닝</div>
+              <div class="highlight-desc">
+                보유채권 듀레이션 관리, 예정 채권 발행·매입 헤지, 금리 전망에 따른 레버리지 포지션 구축 등에 활용됩니다.
+              </div>
+            </article>
+
+            <article class="highlight-card">
+              <div class="highlight-label">결제 방식</div>
+              <div class="highlight-value">실물 또는 현금결제</div>
+              <div class="highlight-desc">
+                만기 시 실제 채권 인수·인도(Physical) 또는 이론가격 대비 차액만 정산하는 현금결제 구조로 설계 가능합니다.
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- 오른쪽: 상품 핵심 요약 카드 -->
+        <aside class="hero-side-card">
+          <div class="side-card-header">
+            <div class="side-card-title">상품 핵심 요약</div>
+            <div class="risk-chip">시장리스크·신용리스크 수반</div>
+          </div>
+
+          <table class="side-card-table">
+            <tr>
+              <th>상품명</th>
+              <td>채권 선도거래 (Bond Forward)</td>
+            </tr>
+            <tr>
+              <th>상품 유형</th>
+              <td>장외파생상품 · 선도계약(포워드)</td>
+            </tr>
+            <tr>
+              <th>기초자산</th>
+              <td>국채, 통화안정채, 회사채 등 사전에 합의된 개별 채권 또는 채권 바스켓</td>
+            </tr>
+            <tr>
+              <th>투자 대상</th>
+              <td>기관·전문투자자 (규정상 적격투자자에 한해 취급)</td>
+            </tr>
+            <tr>
+              <th>만기 및 결제</th>
+              <td>양 당사자 간 약정에 따라 1개월~수년까지 설정 가능, 실물 또는 현금결제 방식 선택</td>
+            </tr>
+            <tr>
+              <th>주요 목적</th>
+              <td>금리·채권가격 변동 리스크 헤지, ALM·트레이딩 포지션 관리, 예정 거래 가격 잠금</td>
+            </tr>
+          </table>
+
+          <div class="side-card-tags">
+            <span class="side-tag">금리 리스크 헤지</span>
+            <span class="side-tag">ALM 관리</span>
+            <span class="side-tag">Fixed Income</span>
+            <span class="side-tag">OTC Derivative</span>
+          </div>
+
+          <p class="side-card-footnote">
+            ※ 실제 취급 조건(기초채권 범위, 만기, 결제 구조, 마진체계 등)은 개별 계약 시점의 시장환경과 내부 기준에 따라
+            별도 협의 후 확정됩니다.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────
+         1. 상품 구조
+         ───────────────────────────── -->
+    <section class="product-section">
+      <header class="section-header">
+        <div class="section-title-block">
+          <div class="section-eyebrow">SECTION 01 · PRODUCT STRUCTURE</div>
+          <h2 class="section-title">상품 구조</h2>
+          <p class="section-subtitle">
+            채권 선도거래는 기초채권, 만기, 선도가격, 결제방식 등을 사전에 확정하고, 해당 조건에 따라 미래 시점에
+            채권을 매매하기로 약정하는 구조입니다.
+          </p>
+        </div>
+        <div class="badge-outline">계약 기본 항목 한눈에 보기</div>
+      </header>
+
+      <div class="section-grid">
+        <!-- 왼쪽: 구조 설명 -->
+        <article class="info-card">
+          <h3 class="info-card-title">거래 개요</h3>
+          <p class="info-card-text">
+            채권 선도거래는 “오늘 조건을 정하고, 미래에 채권을 실제로 사고파는 계약”입니다.
+            일반적으로 다음의 4가지 축으로 구조가 설계됩니다.
+          </p>
+          <ul class="info-bullet-list">
+            <li><strong>기초채권(Underlying)</strong> · 국채, 통안채, 회사채 등 특정 채권 또는 채권 바스켓</li>
+            <li><strong>선도만기(Delivery Date)</strong> · 계약 체결일로부터 1개월~수년까지 유연하게 설정</li>
+            <li><strong>선도가격(Forward Price)</strong> · 오늘 확정하는 미래의 채권 매매가격</li>
+            <li><strong>결제 방식</strong> · 실물인수(Physical) 또는 차액현금결제(Cash Settlement)</li>
+          </ul>
+          <p class="info-card-text">
+            계약 체결 시 별도의 프리미엄은 발생하지 않으며, 시장 금리 및 채권가격 변화에 따라 선도계약의
+            평가손익만 변동합니다.
+          </p>
+        </article>
+
+        <!-- 오른쪽: 약정 항목 표 -->
+        <article class="info-card">
+          <h3 class="info-card-title">기본 약정 항목 예시</h3>
+          <table class="info-table">
+            <tr>
+              <th>기초채권</th>
+              <td>3년 만기 국채, 쿠폰 3.00%, 액면 100 (예시)</td>
+            </tr>
+            <tr>
+              <th>명목금액</th>
+              <td>KRW 100억원 (액면 기준, 고객 요청에 따라 탄력적 설정)</td>
+            </tr>
+            <tr>
+              <th>선도만기</th>
+              <td>계약일 + 6개월 (예: 2025.12.03 체결 → 2026.06.03 결제)</td>
+            </tr>
+            <tr>
+              <th>선도가격</th>
+              <td>예: 98.50 (채권 가격, 이론가격 및 시장 스프레드 반영)</td>
+            </tr>
+            <tr>
+              <th>결제 방식</th>
+              <td>실물인수(채권 인수·인도) 또는 현금결제(차액정산) 중 사전 합의</td>
+            </tr>
+            <tr>
+              <th>마진/담보</th>
+              <td>상대방 신용도 및 내부 규정에 따라 CSA, 증거금, 담보관리 조건 별도 협의</td>
+            </tr>
+          </table>
+          <p class="info-footnote">
+            ※ 상기 내용은 이해를 돕기 위한 예시이며, 실제 약정 조건은 개별 거래 시점의 시장금리, 스프레드, 내부
+            신용한도 및 고객 요구사항에 따라 달라질 수 있습니다.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────
+         2. 손익 구조 & 예시
+         ───────────────────────────── -->
+    <section class="product-section">
+      <header class="section-header">
+        <div class="section-title-block">
+          <div class="section-eyebrow">SECTION 02 · PAYOFF & EXAMPLE</div>
+          <h2 class="section-title">손익 구조 & 예시</h2>
+          <p class="section-subtitle">
+            채권 선도거래는 만기 시점의 채권 현물가격과 선도가격의 차이에 따라 손익이 결정되며, Long·Short 포지션의
+            손익은 서로 정반대 방향으로 움직입니다.
+          </p>
+        </div>
+        <div class="badge-outline">Long / Short 포지션 이해</div>
+      </header>
+
+      <div class="payoff-layout">
+        <!-- 왼쪽: 손익 공식 및 개념 -->
+        <article class="info-card">
+          <h3 class="info-card-title">손익 구조 (기본 공식)</h3>
+          <div class="formula-block">
+            <p>
+              만기 시점의 채권 현물가격을 <span class="formula-inline">S<sub>T</sub></span>,
+              약정 선도가격을 <span class="formula-inline">K</span>라고 할 때,
+            </p>
+            <p style="margin-top: 6px;">
+              Long Forward 손익:
+              <span class="formula-inline">Payoff<sub>Long</sub> = S<sub>T</sub> − K</span><br />
+              Short Forward 손익:
+              <span class="formula-inline">Payoff<sub>Short</sub> = K − S<sub>T</sub></span>
+            </p>
+            <p style="margin-top: 8px;">
+              즉, 만기 시 실제 채권가격이 선도가격보다 높으면 Long에게 이익, 낮으면 Short에게 이익이 발생합니다.
+            </p>
+          </div>
+
+          <div class="payoff-tag-row">
+            <span class="payoff-tag">· Long: 미래에 채권을 “사야 하는” 포지션</span>
+            <span class="payoff-tag">· Short: 미래에 채권을 “팔아야 하는” 포지션</span>
+          </div>
+          <p class="info-card-text">
+            별도의 선도 프리미엄은 없지만, 자금조달금리, 채권 쿠폰, 스프레드 등을 고려한 이론가격에 의해
+            선도가격이 형성되기 때문에, 금리·스프레드 변동에 대한 민감도가 크게 나타날 수 있습니다.
+          </p>
+        </article>
+
+        <!-- 오른쪽: 수치 예시 테이블 -->
+        <article class="info-card">
+          <h3 class="info-card-title">만기 시 손익 예시</h3>
+          <p class="info-card-text">
+            선도만기 6개월, 선도가격 K = 98.50으로 약정한 후, 만기 시 채권 현물가격 S<sub>T</sub>가
+            어떻게 형성되는지에 따른 손익 예시입니다.
+          </p>
+
+          <table class="payoff-example-table">
+            <thead>
+              <tr>
+                <th style="text-align:left;">시나리오</th>
+                <th>S<sub>T</sub> (만기 현물가)</th>
+                <th>Long 손익</th>
+                <th>Short 손익</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align:left;">금리 하락 · 채권 가격 상승</td>
+                <td>101.00</td>
+                <td>+2.50</td>
+                <td>−2.50</td>
+              </tr>
+              <tr class="highlight">
+                <td style="text-align:left;">금리 횡보 · 약정 수준 근처</td>
+                <td>98.50</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td style="text-align:left;">금리 상승 · 채권 가격 하락</td>
+                <td>95.00</td>
+                <td>−3.50</td>
+                <td>+3.50</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="info-card-text" style="margin-top: 6px;">
+            위 손익은 액면 100 기준 예시로, 실제 거래에서는 명목금액(예: 100억원)에 따라 손익 규모가 확대됩니다.
+          </p>
+
+          <div style="display:flex; gap:6px; margin-top:4px; flex-wrap:wrap;">
+            <span class="pill-long">Long Forward: 채권 가격 상승 시 이익</span>
+            <span class="pill-short">Short Forward: 채권 가격 하락 시 이익</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────
+         3. 활용 시나리오
+         ───────────────────────────── -->
+    <section class="product-section">
+      <header class="section-header">
+        <div class="section-title-block">
+          <div class="section-eyebrow">SECTION 03 · USE CASE</div>
+          <h2 class="section-title">주요 활용 시나리오</h2>
+          <p class="section-subtitle">
+            채권 선도거래는 단순 트레이딩 상품을 넘어, ALM·리스크관리·발행·투자 전략 전반에서 다양한 목적에 맞춰
+            활용될 수 있습니다.
+          </p>
+        </div>
+        <div class="badge-outline">리스크관리·전략 운용에 폭넓게 적용</div>
+      </header>
+
+      <div class="cards-row">
+        <article class="scenario-card">
+          <div class="scenario-kicker">ALM · 듀레이션 관리</div>
+          <h3 class="scenario-title">보유채권 포트폴리오 헤지</h3>
+          <p class="scenario-text">
+            금리 상승이 예상되는 구간에서 보유채권의 가격 하락 리스크를 줄이기 위해, 동일 또는 유사 듀레이션의
+            채권에 대해 Short Forward 포지션을 구축하여 듀레이션을 축소하는 데 활용할 수 있습니다.
+          </p>
+        </article>
+
+        <article class="scenario-card">
+          <div class="scenario-kicker">FUNDING · ISSUANCE</div>
+          <h3 class="scenario-title">향후 채권 발행·매입 가격 잠금</h3>
+          <p class="scenario-text">
+            향후 일정 시점에 채권 발행(또는 매입)이 예정된 경우, 현재 금리 수준을 기준으로 선도가격을 확정해 두어
+            시장금리 변동에 따른 비용(또는 매입가)의 불확실성을 줄일 수 있습니다.
+          </p>
+        </article>
+
+        <article class="scenario-card">
+          <div class="scenario-kicker">TRADING · VIEW EXPOSURE</div>
+          <h3 class="scenario-title">금리 전망에 따른 전략적 포지션</h3>
+          <p class="scenario-text">
+            금리 하락(채권 가격 상승)을 예상하는 경우 Long Forward, 금리 상승(채권 가격 하락)을 예상하는 경우
+            Short Forward를 통해 상대적으로 적은 초기 자금으로 금리 방향성에 대한 레버리지 포지션 구축이 가능합니다.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────
+         4. 리스크 안내
+         ───────────────────────────── -->
+    <section class="product-section">
+      <header class="section-header">
+        <div class="section-title-block">
+          <div class="section-eyebrow">SECTION 04 · RISK DISCLOSURE</div>
+          <h2 class="section-title">주요 리스크 안내</h2>
+          <p class="section-subtitle">
+            채권 선도거래는 금리 및 채권가격 변동에 따른 시장리스크뿐 아니라, 거래상대방 신용리스크 등 다양한
+            리스크가 수반되는 상품으로, 적합성·적정성 판단이 선행되어야 합니다.
+          </p>
+        </div>
+        <div class="badge-outline">리스크 특성 사전 이해 필수</div>
+      </header>
+
+      <div class="cards-row">
+        <article class="scenario-card">
+          <div class="scenario-kicker">MARKET RISK</div>
+          <h3 class="scenario-title">시장리스크 (금리·스프레드)</h3>
+          <ul class="risk-list">
+            <li>금리 및 신용스프레드 변화에 따라 채권가격이 변동하며, 선도포지션 평가손익이 크게 움직일 수 있습니다.</li>
+            <li>듀레이션이 긴 채권일수록 금리 변화에 대한 민감도가 높아, 손익 변동성이 확대될 수 있습니다.</li>
+          </ul>
+        </article>
+
+        <article class="scenario-card">
+          <div class="scenario-kicker">CREDIT RISK</div>
+          <h3 class="scenario-title">거래상대방 신용리스크</h3>
+          <ul class="risk-list">
+            <li>장외(OTC) 거래 특성상, 상대방이 계약을 이행하지 못할 경우 미결손익(Exposure)만큼 손실이 발생할 수 있습니다.</li>
+            <li>필요 시 CSA 체결, 담보·마진 제도 등을 통해 신용리스크를 관리합니다.</li>
+          </ul>
+        </article>
+
+        <article class="scenario-card">
+          <div class="scenario-kicker">LIQUIDITY & OPERATIONAL</div>
+          <h3 class="scenario-title">유동성·운영상 리스크</h3>
+          <ul class="risk-list">
+            <li>특정 기초채권의 유동성이 낮거나, 시장 스트레스 상황에서는 포지션 조정·청산이 어렵거나 비용이 증가할 수 있습니다.</li>
+            <li>계약조건, 쿠폰·만기 등 세부 조항에 대한 이해 부족은 예상치 못한 손익 및 운영상 오류를 유발할 수 있습니다.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────
+         5. FAQ
+         ───────────────────────────── -->
+    <section class="product-section">
+      <header class="section-header">
+        <div class="section-title-block">
+          <div class="section-eyebrow">SECTION 05 · FAQ</div>
+          <h2 class="section-title">자주 받는 질문</h2>
+          <p class="section-subtitle">
+            채권 선도거래에 대해 고객이 가장 많이 문의하는 질문들을 정리하였습니다. 실제 취급 시에는 개별 거래 조건에 따라
+            세부 내용이 달라질 수 있습니다.
+          </p>
+        </div>
+        <div class="badge-outline">고객 설명용 Q&A 템플릿</div>
+      </header>
+
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary class="faq-summary">
+            <span>Q1. 일반 채권 투자와 비교해 가장 큰 차이점은 무엇인가요?</span>
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-body">
+            일반 채권 투자는 채권을 현재 시점에 매입하여 쿠폰과 만기상환을 받는 구조인 반면,
+            채권 선도거래는 “미래 시점의 채권 매매가격을 오늘 확정하는 계약”입니다. 초기 현금지출이 거의 없고,
+            만기 시점의 채권가격과 선도가격의 차이에 따라 손익이 발생한다는 점이 주요 차이입니다.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>Q2. Long / Short 포지션은 어떻게 선택해야 하나요?</span>
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-body">
+            금리 하락(채권 가격 상승)을 예상하거나, 향후 채권 매입 가격을 고정하고 싶은 경우에는 Long Forward를,
+            금리 상승(채권 가격 하락)을 예상하거나, 보유채권 가격 하락 리스크를 줄이고 싶은 경우에는 Short Forward
+            포지션을 선택하는 것이 일반적입니다. 다만 내부 ALM·리스크 관리 기준을 함께 고려해야 합니다.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>Q3. 중도에 포지션을 해지하거나 조정할 수 있나요?</span>
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-body">
+            장외거래 특성상, 동일 또는 유사 조건의 역거래(반대매매)를 통해 실질적으로 포지션을 축소·청산하는 방식이
+            사용됩니다. 다만 시장 유동성, 스프레드, 거래상대방 여건 등에 따라 해지 비용이 발생할 수 있습니다.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span>Q4. 실물결제와 현금결제는 어떻게 다른가요?</span>
+            <span class="faq-icon">+</span>
+          </summary>
+          <div class="faq-body">
+            실물결제(Physical)는 만기 시 실제 채권을 인수·인도하는 방식이고, 현금결제(Cash Settlement)는
+            만기 시점의 이론가격과 선도가격의 차액만을 현금으로 정산하는 방식입니다. 고객의 목적(실제 채권 확보 여부,
+            리스크 헤지 목적 등)에 따라 결제 방식을 사전 합의합니다.
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

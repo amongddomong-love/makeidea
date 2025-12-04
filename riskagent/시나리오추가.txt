@@ -1,0 +1,140 @@
+0.시나리오 폴더 생성 및 HTML const SCENARIO_COUNT = 34 시나리오갯수 수정
+
+1.SKYWORK등 시나리오보고서 만들기
+[프롬프트]
+1. 시나리오 설명 및 전개 흐름,2. 모니터링할 시장 지표 (Bloomberg 데이터) – 최소 5개,3. 사전 감지(Yellow)·임박(Red) 뉴스 키워드 4.단계별 대응시나리오에 대해.너는 은행의 리스크 담당자에게 제공할 스트레스테스트 시나리오를 만드는 전문가 입장에서 보고서 작성해줘. 주제는 '미국 고금리 장기화 및 한미 금리 역전 심화' 이야 딥다이브하게 부탁해
+
+2.scenario_report_XX 엑셀파일 만들기
+ : 기존 scenario_report 와 생성된 보고서 PDF자료 GPT업로드 후 작성요청
+[프롬프트]
+엑셀포멧에 맞게끔 PDF내용 분석해서 엑셀 만들어줘
+
+3.scenario_report_XX
+ : 마켓데이터 모니터링대상 찾기 -Indicators sheet- / -Scenario_Indicator_Links-- GPT수행시 연결키워드
+  뉴스키워드 찾기 [해당시나리오 조기모니터링할수 있는 뉴스키워드 6개 찾아줘]
+  
+  data>news>keyword.xlsx 중복되지 않게, yellow/red 결정해서 추가하기 (배치돌때 Y/R 참고)
+
+[지표들 중에서 해당시나리오 조기모니터링할수 있는 지표 5개 찾아줘]
+Indicator_ID	Indicator_Name	Bloomberg_Ticker
+IND001	Baltic Dry Index	BDIY Index
+IND002	사모대출 BDC ETF 할인율	BIZD US Equity
+IND003	KBW 은행 지수	BKX Index
+IND004	BOA 5년 CDS	BOFA CDS USD SR 5Y D14 Curncy
+IND005	브라질 5년 CDS 프리미엄	CBRZ1U5 CBIN Curncy
+IND006	미국 하이일드 채권 스프레드	CDX HY CDSI GEN 5Y Corp
+IND007	미국 하이일드 CDS	CDX HY CDSI GEN 5Y SPRD Corp
+IND009	필란드 5년 CDS	CFIN1U5 CBIN Curncy
+IND010	프랑스 5년 CDS	CFRTR1U5 CBIN Curncy
+IND011	China PPI YoY	CHEFTYOY Index
+IND012	China Completed Investment in Real Estate YoY	CHRXCINY Index
+IND013	China Value Added of industry YoY	CHVAIOY Index
+IND014	씨티그룹 5년 CDS	CINC CDS USD SR 5Y D14 Curncy
+IND015	이탈리아 5년 CDS	CITLY1U5 CBIN Curncy
+IND016	WTI 유가 (선물)	CL1 Comdty
+IND017	중국 GDP 성장률 (YoY)	CNGDPYOY Index
+IND018	중국 위안화 변동성 지수	CNH BGN Curncy
+IND019	역외 위안/달러 환율	CNH Curncy
+IND020	브렌트유 선물 (Brent Crude)	CO1 Comdty
+IND021	미국 컨퍼런스보드 소비자 신뢰지수	CONCCONF Index
+IND022	터키 5Y CDS	CTURK1U5 CBIN Curncy
+IND023	달러 인덱스	DXY Curncy
+IND024	iShares JP Morgan USD Emerging Markets Bond ETF	EMB US Equity
+IND025	경제 정책 불확실성 지수 (EPU)	EPUCNUSD Index
+IND026	유럽 탄소배출권 가격	EUA Comdty
+IND028	달러 유로 환율	EURUSD BGN Curncy
+IND029	EUR/USD 환율	EURUSD Curncy
+IND030	iShares MSCI Taiwan ETF	EWT US Equity
+IND031	연준 재할인창구 대출 잔액	FDTR Index
+IND034	이탈리아 10년물 국채 금리	GBTP10YR Index
+IND035	독일 2년물 금리	GDBR2 Index
+IND036	한국 국채 10년물 금리	SKTB10YY Index
+IND037	지정학적 리스크 지수 (GPR)	GPRXGPRD Index
+IND038	GS 5Y Corp 또는 CDB GS CDS USD SR 5Y Corp	GS CDS USD SR 5Y D14 Curncy
+IND039	글로벌 공급망 압력 지수 (GSCPI)	GSCPI Index
+IND040	글로벌 청정에너지 ETF	ICLN US Equity
+IND041	주간 신규 실업수당 청구 건수 (4주 이동평균)	INJCJC Index
+IND042	iTraxx Europe Crossover 5Y	ITRX XOVER CDSI GEN 5Y Corp
+IND043	미국 하이일드 회사채 ETF	JNK US Equity
+IND044	JPM EMBI Global Spread	JPEIGLSP Index
+IND045	JPM 5Y Corp 또는 CDB JPM CDS USD SR 5Y Corp	JPMCC CDS USD SR 5Y D14 Curncy
+IND046	JPM EM FX Volatility	JPMVXYEM Index
+IND047	JPM 글로벌 외환시장 변동성 지수	JPMVXYGL Index
+IND048	한국 CDS 프리미엄 (5년)	KOREA CDS USD SR 5Y D14 Curncy
+IND049	코스피 200 지수	KOSPI2 Index
+IND050	美 지역은행 주가지수 (ETF)	KRE US Equity
+IND051	원/달러 환율	KRW Curncy
+IND052	미국 하이일드 채권 스프레드	LF98TRUU Index
+IND053	글로벌 리튬 배터리테크	LIT US Equity
+IND054	MOVE 지수	MOVE Index
+IND055	S&P Global China Manufacturing PMI SA	MPMICNMA Index
+IND056	Global Manufacturing PMI	MPMIGLMA Index
+IND057	MS 5Y Corp 또는 CDB MS CDS USD SR 5Y Corp	MS CDS USD SR 5Y D14 Curncy
+IND058	MSCI EM Currency Index	MXEF0CX0 Index
+IND059	나스닥 100 지수 (고점 대비 하락률)	NDX Index
+IND060	CBOE 원유 변동성 지수 (OVX)	OVX Index
+IND061	미국 근원 PCE 물가지수 (YoY)	PCE CYOY Index
+IND062	alantir	PLTR US Equity
+IND063	미국 비농업부문 노동생산성	PRODNFR% Index
+IND064	Shanghai Container Freight Index	SHSPSCFI Index
+IND065	금융기관 간 초단기 Repo 금리	SOFRRATE Index
+IND066	필라델피아 반도체 지수 (SOX)	SOX Index
+IND068	S&P 500 지수	SPX Index
+IND070	위안화 역외 환율	USDCNH Curncy
+IND071	USD/KRW 환율	USDKRW Curncy
+IND072	미 국채 10년물 금리	USGG10YR Index
+IND073	미국 2년물 국채 금리	USGG2YR Index
+IND074	미국 5년물 국채 금리	USGG5YR Index
+IND075	美 10년물 기대인플레이션율 (10Y BEI)	USGGBE10 Index
+IND076	OIS-10년 스프레드 (3M)	USOSFR10 BGN Curncy
+IND077	VIX 지수	VIX Index
+IND078	미국 종합 REIT ETF (Vanguard)	VNQ US Equity
+IND079	나스닥 변동성 지수 (VXN)	VXN Index
+IND080	WisdomTree AI & S/C ETF	WCBR US Equity
+IND081	비트코인 현물 가격	XBTUSD Curncy
+IND500	국고채 3년 수익률	KR 3Y KTB Yield
+IND501	국고채 10년 수익률	KR 10Y KTB Yield
+IND502	미국 10년물 수익률 - 최근 3개월 평균	US 10Y vs 3M Avg
+IND503	TSFR 6개월 - 최근 3개월 평균	TSFR 6M vs 3M Avg
+IND504	원/달러 현물환율	USDKRW Spot
+IND505	코스피 지수	코스피 Index
+IND506	VKOSPI 변동성 지수	코스피변동성
+IND507	원/달러 1년물 내재변동성	USDKRW 1Y Implied Vol
+IND508	미국 OIS 1년 - TSFR 1개월 (월중 평균)	USD OIS 1Y - TSFR 1M
+IND509	TSFR 3개월 (월중 평균-전월 평균)	TSFR 3M
+IND510	일본 TIBOR 3개월 (월중 평균-전월 평균)	JPY TIBOR 3M
+IND511	한국 5년 CDS(전월 평균 대비) 3영업일 연속	KR 5Y CDS vs PrevM
+IND512	한국 5년 CDS(3개월 전 평균 대비) 3영업일 연속	KR 5Y CDS vs M-3
+IND513	한국 10년-3년 수익률 역전 5영업일 연속	KR Term Spread 10Y-3Y
+IND514	미국 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: United States
+IND515	일본 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Japan
+IND516	중국 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: China
+IND517	베트남 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Vietnam
+IND518	카자흐스탄 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Kazakhstan
+IND519	독일 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Germany
+IND520	영국 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: United Kingdom
+IND521	인도 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: India
+IND522	멕시코 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Mexico
+IND523	인도네시아 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Indonesia
+IND524	튀르키예 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Türkiye
+IND525	캐나다 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Canada
+IND526	홍콩 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Hong Kong
+IND527	호주 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Australia
+IND528	필리핀 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Philippines
+IND529	싱가포르 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: Singapore
+IND530	아랍에미리트 5년 CDS (월중 평균 대비 전월 평균)	CDS 5Y: UAE
+IND531	S&P 500 지수	S&P 500
+IND532	유로스톡스 50 지수	EuroStoxx50
+
+4.
+시나리오 요약요청
+go_scen>data>market_data 추가하기
+
+[프롬프트]
+해당 내용을 아래 기준으로 요약해줘
+
+① 개요(요지)
+② 진행순서(이벤트 체인)
+③ 영향도(시장·실물경제 파급)
+
+

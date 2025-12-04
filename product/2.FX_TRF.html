@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>환(외환) 관련 TRF 상품 안내</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #02081b;
+      --card: #020817;
+      --card-soft: #020b23;
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.18);
+      --accent-strong: #0ea5e9;
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --muted: #64748b;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.16), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.2), transparent 60%),
+        linear-gradient(135deg, #020617, #02081b 60%, #020617);
+      color: var(--text);
+      font-family: "Noto Sans KR", "Spoqa Han Sans Neo", "Pretendard", sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1080px;
+      backdrop-filter: blur(24px);
+      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.06), transparent 55%),
+                  linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
+      border-radius: 28px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      padding: 24px 20px 28px;
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding: 28px 28px 32px;
+      }
+    }
+
+    .page-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .title-area {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      color: var(--text-soft);
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent-strong);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.35);
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h1 span.accent {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(56, 189, 248, 0.55);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(59, 130, 246, 0.08));
+      color: var(--accent);
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .tag-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+      font-size: 11px;
+    }
+
+    .tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(15, 23, 42, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-soft);
+    }
+
+    .tag strong {
+      color: var(--text);
+      font-weight: 500;
+      font-size: 11px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr);
+      gap: 18px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.99));
+      padding: 16px 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 55%);
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-title span.marker {
+      width: 7px;
+      height: 18px;
+      border-radius: 999px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent-strong));
+    }
+
+    .card-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .key-points {
+      list-style: none;
+      display: grid;
+      gap: 6px;
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .key-points li {
+      display: grid;
+      grid-template-columns: 90px minmax(0, 1fr);
+      gap: 8px;
+      align-items: flex-start;
+      padding: 6px 8px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(30, 64, 175, 0.55);
+    }
+
+    .key-points span.label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .key-points span.text {
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .mini-note {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .table-wrap {
+      margin-top: 10px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.4), rgba(15, 23, 42, 0.95));
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    thead {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.9), rgba(56, 189, 248, 0.8));
+    }
+
+    thead th {
+      padding: 8px 10px;
+      text-align: left;
+      color: #e5f3ff;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    tbody tr {
+      border-top: 1px solid rgba(15, 23, 42, 0.85);
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    tbody td {
+      padding: 7px 10px;
+      color: var(--text-soft);
+    }
+
+    tbody td.label {
+      color: var(--text);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .risk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 11px;
+    }
+
+    .risk-chip {
+      border-radius: 12px;
+      border: 1px solid rgba(248, 250, 252, 0.06);
+      background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.08), rgba(15, 23, 42, 0.98));
+      padding: 8px 9px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .risk-chip strong {
+      font-size: 11px;
+      color: #e5e7eb;
+    }
+
+    .risk-chip span {
+      color: var(--text-soft);
+    }
+
+    .notice-list {
+      margin-top: 6px;
+      display: grid;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .notice-list li {
+      padding-left: 10px;
+      position: relative;
+    }
+
+    .notice-list li::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent-strong);
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      background: radial-gradient(circle at left, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.98));
+      font-size: 11px;
+      color: var(--muted);
+      display: grid;
+      gap: 3px;
+    }
+
+    .footer-note strong {
+      color: #e5e7eb;
+    }
+
+    .risk-badge {
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      border: 1px solid rgba(248, 113, 113, 0.6);
+      color: #fecaca;
+      background: radial-gradient(circle at top left, rgba(239, 68, 68, 0.22), rgba(30, 64, 175, 0.85));
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .risk-badge span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #f97373;
+      box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.45);
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="page-header">
+      <div class="title-area">
+        <div class="badge-row">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            <span>수입·수출 기업 대상 환헤지형 TRF</span>
+          </div>
+        </div>
+        <h1>
+          환(외환) 관련 TRF
+          <span class="accent">수입·수출 실수요 기반 환율헤지 · 레버리지 운용</span>
+        </h1>
+        <p class="subtitle">
+          특정 통화쌍(예: USD/KRW)의 환율 변동을 대상으로, 실거래(수출·수입)와 연계하여
+          환위험을 관리하거나 레버리지 운용을 가능하게 하는 파생상품(TRF)입니다.
+          환율 방향에 따라 실거래 손익과 TRF 손익이 함께 움직일 수 있어 구조 이해가 중요합니다.
+        </p>
+      </div>
+
+      <section class="tag-grid">
+        <div class="tag">
+          <span>기초자산</span>
+          <strong>USD/KRW, EUR/KRW 등 주요 통화쌍</strong>
+        </div>
+        <div class="tag">
+          <span>주요 고객</span>
+          <strong>수입·수출 기업(실수요자)</strong>
+        </div>
+        <div class="tag">
+          <span>거래 목적(예시)</span>
+          <strong>환헤지 / 환포지션 레버리지</strong>
+        </div>
+        <div class="tag">
+          <span>만기 구조</span>
+          <strong>3개월 ~ 1년(롤오버 가능)</strong>
+        </div>
+      </section>
+    </header>
+
+    <section class="layout">
+      <!-- 좌측: 상품 개요 + 수입·수출 고객 사용 상황 + 환율 시나리오 -->
+      <section class="card">
+        <div class="card-inner">
+          <header class="card-header">
+            <div>
+              <div class="card-title">
+                <span class="marker"></span>
+                <span>1. 상품 개요 및 수입·수출 고객 사용 목적</span>
+              </div>
+              <p class="card-sub">
+                환율 변동에 노출된 수입·수출 기업이, 실거래와 연계해 환리스크를 관리하거나
+                특정 환율 수준을 사전에 확보하기 위해 사용하는 TRF 구조입니다.
+              </p>
+            </div>
+          </header>
+
+          <ul class="key-points">
+            <li>
+              <span class="label">상품 개념</span>
+              <span class="text">
+                투자자가 특정 환율(예: USD/KRW)에 대한 <strong>총수익(환율 변동에 따른 손익)</strong>을 취하는 대신,
+                <strong>약정 환율 또는 금리+스프레드</strong>를 지급하는 구조의 환 관련 TRF입니다.
+              </span>
+            </li>
+            <li>
+              <span class="label">수입 기업</span>
+              <span class="text">
+                향후 <strong>달러(USD)를 지급해야 하는 수입기업</strong>이, 환율 상승(원화 약세)에 따른 비용 증가를
+                헤지하기 위해 TRF를 활용할 수 있습니다.<br />
+                예) 일정 기간 동안 USD/KRW를 미리 고정하거나, 상승 시 이익이 나는 구조를 통해 실거래 손실을 보완.
+              </span>
+            </li>
+            <li>
+              <span class="label">수출 기업</span>
+              <span class="text">
+                향후 <strong>달러(USD)를 수취하는 수출기업</strong>이, 환율 하락(원화 강세)에 따른 매출 감소를
+                완화하기 위해 TRF를 사용할 수 있습니다.<br />
+                예) USD/KRW 하락 시 TRF에서 이익이 발생하도록 설계해, 실수출대금 감소분을 일부 보전.
+              </span>
+            </li>
+            <li>
+              <span class="label">거래 동기</span>
+              <span class="text">
+                ▸ <strong>환헤지 목적</strong>: 실수요(수출·수입 계약 금액, 만기)에 맞춘 헤지<br />
+                ▸ <strong>레버리지 운용</strong>: 환율 방향에 대한 뷰를 바탕으로,
+                <strong>일부는 헤지 + 일부는 레버리지 포지션</strong>을 취하는 형태도 가능
+              </span>
+            </li>
+          </ul>
+
+          <p class="mini-note">
+            ※ 실제 계약 구조는 상품별로 상이하며, 헤지 목적/투자 목적에 따라 손익 프로파일과 레버리지 수준이 달라집니다.
+          </p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>상황(예시)</th>
+                  <th>환율 방향</th>
+                  <th>수입기업 실거래 효과</th>
+                  <th>수출기업 실거래 효과</th>
+                  <th>TRF 포지션 손익(예시)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="label">원화 약세</td>
+                  <td>USD/KRW 상승</td>
+                  <td>달러 결제 금액 증가 → <strong>비용 부담 ↑</strong></td>
+                  <td>원화 환산 매출 증가 → <strong>매출·마진 ↑</strong></td>
+                  <td>
+                    ▸ 수입기업: 상승 이익 구조 TRF 보유 시, 실거래 손실 일부 보완<br />
+                    ▸ 수출기업: 추가 이익 가능 (단, 과도한 레버리지는 주의)
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label">원화 강세</td>
+                  <td>USD/KRW 하락</td>
+                  <td>달러 결제 금액 감소 → <strong>비용 부담 ↓</strong></td>
+                  <td>원화 환산 매출 감소 → <strong>매출·마진 ↓</strong></td>
+                  <td>
+                    ▸ 수입기업: TRF에서 손실 발생 가능 (실거래 이익 vs TRF 손실 상쇄 구조)<br />
+                    ▸ 수출기업: 하락 이익 구조 TRF 보유 시, 매출 감소분 일부 보완
+                  </td>
+                </tr>
+                <tr>
+                  <td class="label">환율 급변</td>
+                  <td>단기간 큰 폭 상승·하락</td>
+                  <td>예산·가격정책 차질 가능</td>
+                  <td>수주·정산 시점마다 환손익 변동 확대</td>
+                  <td>
+                    ▸ 레버리지 TRF의 경우 <strong>평가손익 변동 폭 확대</strong><br />
+                    ▸ 마진콜·추가 증거금 요구 발생 가능
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 우측: 잠재적 위험 및 유의사항 -->
+      <section class="card">
+        <div class="card-inner">
+          <header class="card-header">
+            <div>
+              <div class="card-title">
+                <span class="marker"></span>
+                <span>2. 잠재적 위험 및 유의사항</span>
+              </div>
+              <p class="card-sub">
+                환 관련 TRF는 실수요 헤지 수단이 될 수 있지만, 구조·레버리지·실거래와의 매칭 여부에 따라
+                손실이 발생할 수 있는 상품입니다.
+              </p>
+            </div>
+            <div class="risk-badge">
+              <span class="dot"></span>
+              <span>원금 손실 가능 · 과도한 레버리지 및 미스매치 주의</span>
+            </div>
+          </header>
+
+          <div class="risk-grid">
+            <div class="risk-chip">
+              <strong>시장(환율) 위험</strong>
+              <span>
+                환율이 <strong>예상과 반대로 크게 움직일 경우</strong>, TRF 평가손실이 확대될 수 있습니다.
+                레버리지가 있는 구조라면 손익 변동 폭은 실제 환거래보다 더 커질 수 있습니다.
+              </span>
+            </div>
+
+            <div class="risk-chip">
+              <strong>헤지 미스매치 위험</strong>
+              <span>
+                실제 수출·수입 금액·시점과 TRF 계약의 <strong>명목·만기·통화가 일치하지 않을 경우</strong>,
+                실거래 손익과 TRF 손익이 어긋나 오히려 변동성이 커질 수 있습니다.
+              </span>
+            </div>
+
+            <div class="risk-chip">
+              <strong>마진콜 · 유동성 위험</strong>
+              <span>
+                환율이 불리하게 움직여 평가손실이 누적되면, <strong>추가 증거금(마진콜)</strong>이 발생할 수 있으며,
+                이를 제때 납입하지 못하면 <strong>강제청산으로 손실이 확정</strong>될 수 있습니다.
+              </span>
+            </div>
+
+            <div class="risk-chip">
+              <strong>과도한 레버리지 위험</strong>
+              <span>
+                실수요 헤지가 아닌 <strong>투자·시세차익 목적의 포지션을 크게 설정</strong>할 경우,
+                단기간 환율 변동만으로도 회사 재무에 부담이 되는 손실이 발생할 수 있습니다.
+              </span>
+            </div>
+
+            <div class="risk-chip">
+              <strong>회계 · 내부통제 위험</strong>
+              <span>
+                헤지회계 적용 요건, 내부 한도·승인, 리스크 측정 체계가 미흡하면
+                <strong>손익 인식 시점·규모에 대한 혼선</strong>과 내부통제 이슈로 이어질 수 있습니다.
+              </span>
+            </div>
+
+            <div class="risk-chip">
+              <strong>신용 · 법적 위험</strong>
+              <span>
+                거래 상대방(금융기관)의 신용 위험, 계약 조건(조기종료 조항, 이벤트 조항 등)
+                해석 차이로 인한 <strong>분쟁·소송 위험</strong>이 존재합니다.
+              </span>
+            </div>
+          </div>
+
+          <ul class="notice-list">
+            <li>
+              환 관련 TRF는 <strong>실수요에 맞는 적정 규모·만기·통화</strong>로 설계될 때
+              환위험을 줄이는 데 도움이 되지만, 구조 이해 없이 과도하게 사용할 경우
+              기사에서 보는 수준의 손실로 이어질 수 있습니다.
+            </li>
+            <li>
+              특히, 단순 환포워드 대비 <strong>레버리지와 마진콜 메커니즘</strong>이 추가된 구조는
+              시장 급변 시 손실 확대 및 유동성 부담으로 연결될 수 있으므로,
+              한도 관리·스트레스 테스트가 필수적입니다.
+            </li>
+            <li>
+              수입·수출 계약과의 매칭 여부(금액, 만기, 통화)를 사전에 점검하고,
+              <strong>“헤지 비율”과 “투자 비율”</strong>을 구분하여 관리하는 것이 중요합니다.
+            </li>
+            <li>
+              내부 리스크관리·재무·영업 부서가 함께 상품 구조를 이해하고,
+              <strong>위험·손익 시나리오를 사전에 공유</strong>하는 것이 바람직합니다.
+            </li>
+          </ul>
+
+          <div class="footer-note">
+            <strong>※ 중요 안내</strong>
+            <span>· 환 관련 TRF는 예금이 아니며, <strong>원금이 보장되지 않습니다.</strong></span>
+            <span>· 환율 변동 및 레버리지 구조에 따라 투자원금의 전부 또는 상당 부분을 손실할 수 있습니다.</span>
+            <span>· 실제 상품별 구조·조건, 마진콜 기준, 조기종료 조항 등은
+              반드시 개별 약관 및 설명서를 통해 확인하셔야 합니다.</span>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

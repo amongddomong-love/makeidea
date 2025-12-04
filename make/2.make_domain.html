@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>카페24에서 도메인 만들기 & 연결하기 가이드</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-alt: #02081a;
+      --card: #020617;
+      --card-elevated: #02091b;
+      --border-subtle: rgba(148, 163, 184, 0.25);
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.16);
+      --accent-strong: #0ea5e9;
+      --warn: #f97373;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --muted-soft: rgba(148, 163, 184, 0.1);
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.85);
+      --radius-lg: 18px;
+      --radius-xl: 22px;
+      --radius-pill: 999px;
+      --gap-lg: 20px;
+      --gap-xl: 24px;
+      --transition-fast: 140ms ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Spoqa Han Sans Neo', 'Apple SD Gothic Neo', 'Noto Sans KR',
+        system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.09) 0, transparent 55%),
+        radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.1) 0, transparent 60%),
+        linear-gradient(145deg, #020617 0%, #020617 55%, #020617 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      padding: 18px 14px 32px;
+      display: flex;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1120px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 26px;
+      padding: 22px 22px 28px;
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 62%),
+        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 1));
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: var(--shadow-soft);
+      overflow: visible;
+    }
+
+    .hero-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.75);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-pill span {
+      font-weight: 600;
+      color: var(--accent-strong);
+      margin-right: 6px;
+    }
+
+    .hero-title {
+      font-size: 22px;
+      line-height: 1.3;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin-bottom: 6px;
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .hero-summary {
+      display: grid;
+      grid-template-columns: 1.6fr 1.2fr;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .hero-keyline {
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .hero-keyline strong {
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .hero-bullets {
+      font-size: 12px;
+      color: var(--muted);
+      list-style: none;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.78);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      padding: 10px 12px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .hero-bullets li::before {
+      content: "•";
+      margin-right: 5px;
+      color: var(--accent);
+    }
+
+    .hero-ribbon {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .hero-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #a5f3fc, #38bdf8);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+      gap: var(--gap-lg);
+      align-items: flex-start;
+    }
+
+    .stack {
+      display: grid;
+      gap: var(--gap-lg);
+    }
+
+    .card {
+      position: relative;
+      padding: 16px 16px 15px;
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(circle at top left, rgba(30, 64, 175, 0.25), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 1));
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.8);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background 160ms ease-out;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.6);
+      box-shadow: 0 24px 56px rgba(15, 23, 42, 0.95);
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.32), transparent 62%),
+        radial-gradient(circle at bottom right, rgba(15, 23, 42, 1), rgba(15, 23, 42, 1));
+    }
+
+    .card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-title span.label {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(56, 189, 248, 0.55);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.27), transparent 65%);
+      color: #e0f2fe;
+    }
+
+    .card-title small {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .card-body {
+      font-size: 12px;
+      color: var(--muted);
+      display: grid;
+      gap: 6px;
+    }
+
+    .card-body p {
+      line-height: 1.6;
+    }
+
+    .inline-domain {
+      font-family: 'SF Mono', 'JetBrains Mono', ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: #e0f2fe;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 5px;
+    }
+
+    .chip {
+      border-radius: var(--radius-pill);
+      padding: 3px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.85);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .chip strong {
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: grid;
+      gap: 3px;
+      margin-top: 3px;
+    }
+
+    .bullet-list li {
+      line-height: 1.6;
+      position: relative;
+      padding-left: 12px;
+    }
+
+    .bullet-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+    }
+
+    .sub-note {
+      font-size: 11px;
+      color: var(--muted);
+      padding: 6px 8px;
+      border-radius: 11px;
+      background: var(--muted-soft);
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .tag-tip {
+      font-size: 11px;
+      font-weight: 500;
+      color: #e0f2fe;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(22, 163, 74, 0.16);
+      border: 1px solid rgba(34, 197, 94, 0.6);
+    }
+
+    .tag-warn {
+      font-size: 11px;
+      font-weight: 500;
+      color: #fee2e2;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: rgba(239, 68, 68, 0.16);
+      border: 1px solid rgba(248, 113, 113, 0.7);
+    }
+
+    .flow-list {
+      display: grid;
+      gap: 4px;
+      list-style: none;
+      margin-top: 4px;
+      font-size: 12px;
+    }
+
+    .flow-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 9px;
+      border-radius: 11px;
+      background: rgba(15, 23, 42, 0.86);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .flow-step {
+      width: 16px;
+      height: 16px;
+      border-radius: 6px;
+      background: radial-gradient(circle at 30% 25%, #e0f2fe, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #0b1120;
+      flex-shrink: 0;
+    }
+
+    .flow-text {
+      flex: 1;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .table-wrapper {
+      margin-top: 6px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    thead {
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.25), rgba(15, 23, 42, 0.98));
+    }
+
+    th, td {
+      padding: 7px 9px;
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+      color: #e0f2fe;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+    }
+
+    tbody tr:nth-child(even) {
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    tbody tr:nth-child(odd) {
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    tbody tr td:last-child {
+      color: var(--muted);
+    }
+
+    .highlight {
+      color: var(--accent-strong);
+      font-weight: 500;
+    }
+
+    .small-muted {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .pill {
+      border-radius: var(--radius-pill);
+      padding: 3px 9px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.9);
+      font-size: 11px;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill strong {
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .footer-card {
+      margin-top: -4px;
+      font-size: 11px;
+    }
+
+    .footer-card ul {
+      list-style: none;
+      display: grid;
+      gap: 2px;
+      margin-top: 4px;
+    }
+
+    .footer-card li {
+      line-height: 1.5;
+      padding-left: 11px;
+      position: relative;
+      color: var(--muted);
+    }
+
+    .footer-card li::before {
+      content: "›";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-size: 11px;
+    }
+
+    /* 반응형 레이아웃 */
+    @media (max-width: 840px) {
+      body {
+        padding: 16px 12px 26px;
+      }
+
+      .hero-card {
+        padding: 18px 16px 24px;
+      }
+
+      .hero-summary {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .hero-ribbon {
+        position: static;
+        margin-top: 12px;
+      }
+
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .hero-title {
+        font-size: 19px;
+      }
+
+      .hero-card {
+        border-radius: 22px;
+      }
+
+      .card {
+        padding: 14px 13px 13px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      body {
+        padding: 14px 10px 22px;
+      }
+
+      .shell {
+        gap: 16px;
+      }
+
+      .hero-tag-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-bullets {
+        padding: 8px 9px;
+      }
+
+      .pill-row {
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <!-- 헤더 카드: 한 줄 개념 & 전체 흐름 -->
+    <section class="hero-card">
+      <div class="hero-tag-row">
+        <div class="hero-pill">
+          <span>GUIDE</span> 카페24에서 도메인 만들기 · 연결하기
+        </div>
+        <div class="hero-pill">
+          <span>FLOW</span> 도메인 구입 → 쇼핑몰/홈페이지 연결 → (옵션) 외부 호스팅 연결
+        </div>
+      </div>
+
+      <h1 class="hero-title">“도메인은 <strong>사이트 이름(주소)</strong>이고, 카페24는 그 이름을 사서 연결해주는 창구”</h1>
+      <p class="hero-subtitle">
+        예: <span class="inline-domain">myriskdashboard.com</span>,
+        <span class="inline-domain">risk-ailert.kr</span> 처럼, 기억하기 쉬운 주소를 확보하고
+        내 쇼핑몰·홈페이지와 연결하는 전 과정을 한 번에 정리한 가이드입니다.
+      </p>
+
+      <div class="hero-summary">
+        <div class="hero-keyline">
+          <p>
+            <strong>도메인 = 사이트 이름(주소)</strong>이고, 카페24에서는
+            <strong>① 도메인 검색·구입</strong>과 <strong>② 내 사이트와 연결</strong>을 한 곳에서 처리할 수 있습니다.
+          </p>
+        </div>
+        <ul class="hero-bullets">
+          <li>카페24 계정 하나로 도메인·호스팅·쇼핑몰을 모두 관리</li>
+          <li>원하는 이름의 도메인 검색 → 사용 가능 여부 확인 → 결제</li>
+          <li>카페24 쇼핑몰 또는 Netlify/GitHub Pages 등과 도메인 연결</li>
+        </ul>
+      </div>
+
+      <div class="hero-ribbon">
+        <span class="hero-dot"></span>
+        <span>한 줄 요약: “도메인 이름 정해서 사고, 내 사이트와 연결한다”</span>
+      </div>
+    </section>
+
+    <main class="main-grid">
+      <!-- 왼쪽: 개념 + 1~5단계 -->
+      <section class="stack">
+        <!-- 0단계: 개념 정리 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">0단계</span> 머릿속에 먼저 정리하는 개념
+            </h2>
+          </div>
+          <div class="card-body">
+            <p>
+              <strong>도메인</strong>은 웹사이트의 “주소”입니다.<br />
+              사람에게는 <strong>이름</strong>이 있고, 웹사이트에는
+              <strong>myriskdashboard.com, risk-ailert.kr</strong> 같은 주소가 있습니다.
+            </p>
+            <p class="small-muted">
+              카페24에서는 이 주소(도메인)를 <strong>검색·구입</strong>하고,
+              <strong>내 쇼핑몰/홈페이지와 연결</strong>할 수 있습니다.
+            </p>
+            <div class="chip-row">
+              <span class="chip"><strong>도메인</strong> = 사이트 이름(주소)</span>
+              <span class="chip"><strong>호스팅</strong> = 사이트가 올라가는 서버 공간</span>
+              <span class="chip"><strong>DNS</strong> = “이 주소 → 이 서버로 가라”는 길 안내표</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 전체 흐름 미리보기 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">Flow</span> 전체 흐름 한눈에 보기
+            </h2>
+          </div>
+          <div class="card-body">
+            <ul class="flow-list">
+              <li class="flow-item">
+                <div class="flow-step">1</div>
+                <div class="flow-text">카페24에 <strong>로그인</strong> (도메인·호스팅을 관리할 기준 계정)</div>
+              </li>
+              <li class="flow-item">
+                <div class="flow-step">2</div>
+                <div class="flow-text"><strong>도메인 검색 화면</strong>으로 이동해서, 원하는 이름을 검색</div>
+              </li>
+              <li class="flow-item">
+                <div class="flow-step">3</div>
+                <div class="flow-text">사용 가능한 도메인 중에서 <strong>이름 선택 후 결제</strong></div>
+              </li>
+              <li class="flow-item">
+                <div class="flow-step">4</div>
+                <div class="flow-text">카페24 쇼핑몰/홈페이지 관리자에서 <strong>도메인 연결</strong></div>
+              </li>
+              <li class="flow-item">
+                <div class="flow-step">5</div>
+                <div class="flow-text">(필요 시) Netlify·GitHub Pages 등 외부 호스팅에 맞게 <strong>DNS/DNS 레코드 변경</strong></div>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 1단계 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">1단계</span> 카페24 접속 & 로그인
+              <small>기준 계정 만들기</small>
+            </h2>
+          </div>
+          <div class="card-body">
+            <ul class="bullet-list">
+              <li>브라우저에서 <span class="inline-domain">https://www.cafe24.com</span> 접속</li>
+              <li>오른쪽 상단 <strong>“로그인”</strong> 클릭</li>
+              <li>이미 아이디가 있으면 그대로 로그인</li>
+              <li>없다면 <strong>“회원가입” 후 로그인</strong></li>
+            </ul>
+            <p class="sub-note">
+              이 계정이 앞으로 <strong>도메인, 호스팅, 쇼핑몰</strong> 등 모든 서비스를 관리하는
+              <strong>기준 계정</strong>이 됩니다. 팀 단위로 쓸 거면 공용 관리 계정으로 설정해 두는 것이 좋습니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- 2단계 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">2단계</span> 도메인 검색 화면으로 이동
+              <small>검색창 찾아가기</small>
+            </h2>
+          </div>
+          <div class="card-body">
+            <ul class="bullet-list">
+              <li>상단 메뉴에서 <strong>[호스팅] → [도메인]</strong> 클릭 또는</li>
+              <li>메인 화면에서 <strong>“도메인” / “도메인 검색”</strong> 비슷한 메뉴 클릭</li>
+              <li>“<strong>도메인 검색/등록</strong>” 페이지로 이동하면 검색창이 하나 보입니다.</li>
+            </ul>
+            <p class="small-muted">
+              여기서 팀장님이 생각한
+              <span class="inline-domain">risk-ailert.com</span>,
+              <span class="inline-domain">bankrisklab.kr</span>
+              같은 이름을 입력해서 사용 가능 여부를 확인하게 됩니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- 3단계 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">3단계</span> 도메인 이름 검색 & 선택
+              <small>이름 후보 테스트</small>
+            </h2>
+          </div>
+          <div class="card-body">
+            <ul class="bullet-list">
+              <li>검색창에 원하는 이름 입력 (예: <strong>risk-ailert</strong>)</li>
+              <li><strong>검색</strong> 버튼 클릭</li>
+              <li>
+                결과 예시:
+                <span class="inline-domain">risk-ailert.com</span>,
+                <span class="inline-domain">risk-ailert.co.kr</span>,
+                <span class="inline-domain">risk-ailert.kr</span> …
+              </li>
+            </ul>
+            <div class="pill-row">
+              <span class="pill"><strong>등록 가능</strong> = 아직 아무도 안 쓴 주소</span>
+              <span class="pill"><strong>등록 불가 / 사용 중</strong> = 이미 다른 사람이 선점</span>
+            </div>
+            <p class="sub-note">
+              이 단계에서 <strong>기억하기 좋고, 우리 팀/서비스를 잘 설명하는 이름</strong>을 2~3개 정도
+              테스트해 보면 좋습니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- 4단계: 도메인 규칙 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">4단계</span> 도메인 규칙 간단 체크
+              <small>이름 짓기 제한 사항</small>
+            </h2>
+          </div>
+          <div class="card-body">
+            <p class="small-muted">
+              카페24 검색 페이지에도 안내가 나오지만, 핵심 규칙만 표로 정리하면 아래와 같습니다.
+            </p>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>규칙 항목</th>
+                    <th>내용 요약</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>길이</td>
+                    <td><span class="highlight">최소 2자 ~ 최대 64자</span> (영문 기준)</td>
+                  </tr>
+                  <tr>
+                    <td>첫 글자</td>
+                    <td><span class="highlight">영문자(a~z) 또는 숫자(0~9)</span>만 가능</td>
+                  </tr>
+                  <tr>
+                    <td>마지막 글자</td>
+                    <td><span class="highlight">하이픈(-)으로 끝나면 안 됨</span></td>
+                  </tr>
+                  <tr>
+                    <td>사용 가능 문자</td>
+                    <td><span class="highlight">영문 소문자 a~z, 숫자 0~9, 하이픈(-)</span>만 사용 가능</td>
+                  </tr>
+                  <tr>
+                    <td>사용 불가 문자</td>
+                    <td><span class="highlight">언더바(_), 공백, 콤마(,)</span> 등 특수문자는 불가</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="sub-note">
+              위 규칙을 만족하는 후보들 중에서
+              <strong>“우리 팀/서비스를 가장 잘 설명하는 이름”</strong>을 최종 선택하면 됩니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- 5단계: 장바구니/결제 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">5단계</span> 장바구니에 담고 결제
+              <small>소유권 확보</small>
+            </h2>
+          </div>
+          <div class="card-body">
+            <ul class="bullet-list">
+              <li>마음에 드는 도메인 옆의 <strong>[선택] / [등록] / [신청]</strong> 버튼 클릭</li>
+              <li>화면 안내에 따라 <strong>장바구니로 이동</strong></li>
+              <li><strong>기간 선택</strong> (보통 1년 단위, 2~3년도 가능)</li>
+              <li><strong>결제 수단 선택 → 결제 완료</strong></li>
+            </ul>
+            <p class="sub-note">
+              여기까지 진행하면 해당 도메인의 <strong>“소유권”</strong>이 팀장님 계정으로 넘어옵니다.<br />
+              아직 <strong>“어느 사이트로 연결할지”는 정하지 않은 상태</strong>입니다.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <!-- 오른쪽: 6~9단계 + 요약 -->
+      <section class="stack">
+        <!-- 6단계: 쇼핑몰과 연결 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">6단계</span> 카페24 쇼핑몰/사이트와 도메인 연결
+              <small>쇼핑몰 관리자 설정</small>
+            </h2>
+          </div>
+          <div class="card-body">
+            <p>
+              카페24 쇼핑몰을 같이 쓰는 경우, <strong>관리자 페이지</strong>에서
+              <strong>내 쇼핑몰 ↔ 도메인</strong> 연결을 해줘야 합니다.
+            </p>
+            <ul class="bullet-list">
+              <li>쇼핑몰 <strong>관리자 페이지</strong> 접속</li>
+              <li>
+                메뉴 예시:
+                <strong>쇼핑몰 설정 → 기본설정 → 쇼핑몰 정보 → 도메인 설정</strong>
+              </li>
+              <li><strong>“보유 도메인 연결하기”</strong> 버튼 클릭</li>
+              <li>
+                방금 구입한 도메인 선택 또는 직접 입력<br />
+                (예: <span class="inline-domain">risk-ailert.com</span>, 보통 <strong>https, www는 빼고</strong> 순수 도메인만 입력)
+              </li>
+              <li><strong>“추가/연결”</strong> 버튼 클릭 → 시스템이 연결 가능 여부 자동 체크</li>
+            </ul>
+            <p class="sub-note">
+              연결이 완료되면 <strong>“쇼핑몰에 연결된 도메인 목록”</strong>에서 해당 주소를 확인할 수 있습니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- 7단계: 대표 도메인 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">7단계</span> 대표 도메인(메인 주소) 지정
+              <small>손님이 보게 될 기본 주소</small>
+            </h2>
+          </div>
+          <div class="card-body">
+            <p>
+              쇼핑몰에 여러 도메인이 연결되어 있으면,
+              <strong>어떤 주소를 메인으로 사용할지</strong> 선택할 수 있습니다.
+            </p>
+            <ul class="bullet-list">
+              <li>쇼핑몰 관리자에서 <strong>도메인 목록</strong> 화면으로 이동</li>
+              <li>연결된 도메인들 중 하나 선택</li>
+              <li><strong>“대표 도메인 변경 / Set primary domain”</strong> 버튼 클릭</li>
+              <li>팝업에서 사용할 도메인 선택 후 <strong>저장</strong></li>
+            </ul>
+            <p class="sub-note">
+              목록에서 <strong>“대표 / Primary”</strong> 표시가 붙은 도메인이
+              실제로 손님 브라우저 주소창에 보이는 기본 주소가 됩니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- 8단계: DNS/네임서버 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">8단계</span> DNS / 네임서버 설정
+              <small>Netlify·GitHub Pages 등 외부 호스팅 연결 시</small>
+            </h2>
+          </div>
+          <div class="card-body">
+            <p>
+              팀장님처럼 <strong>Netlify, GitHub Pages, 다른 서버</strong>에 사이트를 올리고,<br />
+              카페24에서 산 도메인을 연결하려면 <strong>DNS(네임서버/레코드)</strong> 설정이 필요합니다.
+            </p>
+            <ul class="bullet-list">
+              <li>카페24 <strong>“나의 서비스 관리 → 도메인 관리 → DNS 관리/네임서버 관리”</strong> 메뉴로 이동</li>
+              <li>여기에서
+                <strong>A 레코드</strong> (서버 IP) 또는
+                <strong>CNAME</strong> (별칭, 예: <strong>www → myproject.netlify.app</strong>)를
+                외부 호스팅에서 안내해 준 값으로 수정
+              </li>
+              <li><strong>저장 후 전파 시간</strong> (전 세계 DNS 반영)에 따라 보통 수 분 ~ 최대 24~48시간 정도 대기</li>
+            </ul>
+            <p class="sub-note">
+              이 부분은 다소 <strong>기술적인 단계</strong>입니다.
+            </p>
+            <div style="margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4);">
+              <p style="margin: 0; font-size: 12px; line-height: 1.6; color: var(--text);">
+                <strong style="color: var(--accent-strong); display: block; margin-bottom: 6px;">💡 Netlify에 도메인 연결할 때 A/CNAME 값을 이렇게 넣으세요</strong>
+                실제로 연결할 때는 서비스별 예시를 별도로 정리해 두면 좋습니다.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 9단계: 접속 테스트 -->
+        <article class="card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">9단계</span> 최종 접속 테스트
+              <small>PC · 모바일에서 모두 확인</small>
+            </h2>
+          </div>
+          <div class="card-body">
+            <p>
+              설정이 끝났다면 브라우저에서 실제로 접속이 잘 되는지 꼭 확인해야 합니다.
+            </p>
+            <ul class="bullet-list">
+              <li><span class="inline-domain">https://risk-ailert.com</span> 입력 후 접속</li>
+              <li><span class="inline-domain">https://www.risk-ailert.com</span> 도 함께 확인</li>
+              <li>의도한 사이트 화면이 뜨는지 확인</li>
+              <li><strong>http → https 자동 리다이렉트</strong>가 잘 되는지 확인</li>
+              <li><strong>모바일/PC</strong> 둘 다 접속해 보고 문제 없는지 체크</li>
+            </ul>
+            <p class="sub-note">
+              여기까지 이상 없이 완료되면, 팀/서비스의 공식 주소가
+              <strong>“운영 가능한 상태”</strong>가 된 것입니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- 한 줄 요약 카드 -->
+        <article class="card footer-card">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="label">마무리</span> 한 번 더, 한 줄 요약
+            </h2>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li>카페24에 <strong>로그인</strong>한다.</li>
+              <li>원하는 이름으로 <strong>도메인 검색 → 이름 정하기 → 결제</strong>한다.</li>
+              <li>쇼핑몰/사이트 관리자에서 <strong>도메인 설정 → 내 사이트와 연결</strong>한다.</li>
+              <li>필요하다면 <strong>대표 도메인</strong>으로 지정한다.</li>
+              <li>Netlify·GitHub Pages 등 <strong>외부 호스팅</strong>을 쓸 경우,
+                <strong>DNS/네임서버를 해당 서비스에서 안내한 값으로 맞춰준다.</strong>
+              </li>
+            </ul>
+            <p class="sub-note" style="margin-top:6px;">
+              이 흐름만 머릿속에 잡혀 있으면, <strong>앞으로 다른 사람들에게도 도메인 등록 과정을 쉽게 설명</strong>해 줄 수 있습니다.
+            </p>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,724 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bloomberg 시장 지표 매뉴얼: 주요 티커 해설 및 분석</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 40px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    }
+.chart-container {
+    position: relative;
+    margin: 3em auto;
+    max-width: 700px;
+    min-height: 200px;
+    max-height: 400px;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    aspect-ratio: 7/5;}
+h5 {
+    font-size: 16px;
+    }
+body {
+    font-family: "Noto Sans KR", "Merriweather", "Georgia", serif;
+    line-height: 1.8;
+    font-size: 16px;
+    color: #333;
+    background-color: #fafafa;
+    margin: 0 24px 0 24px;
+    padding: 0;
+    max-width: None;
+    }
+h1, h2, h3, h4 {
+    font-family: "Helvetica Neue", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 24px;
+    margin-bottom: 20px;
+    font-size: 28px;
+    }
+h1 {
+    font-size: 28px;
+    color: #000;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0.5em;
+    margin-top: 24px;
+    margin-bottom: 20px;
+    }
+h2 {
+    font-size: 22px;
+    color: #111;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 0.4em;
+    }
+h3 {
+    font-size: 20px;
+    color: #222;
+    }
+h4 {
+    font-size: 18px;
+    color: #333;
+    }
+p {
+    margin-bottom: 1.2em;
+    }
+a {
+    color: #1a0dab;
+    text-decoration: none;
+    }
+a:hover {
+    text-decoration: underline;
+    }
+blockquote {
+    border-left: 4px solid #ccc;
+    padding-left: 20px;
+    margin: 2em 0;
+    font-style: italic;
+    color: #666;
+    }
+strong {
+    font-weight: 700;
+    }
+ul, ol {
+    padding-left: 2em;
+    margin-bottom: 1.2em;
+    }
+li {
+    margin-bottom: 0.5em;
+    }
+figure {
+    margin: 2em 0;
+    text-align: center;
+    }
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+    overflow: hidden;
+    max-height: 280px;
+    margin: 1em auto;
+    }
+figcaption {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 0.5em;
+    font-style: italic;
+    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    font-size: 0.95em;
+    }
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    }
+th {
+    background-color: #f9f9f9;
+    font-weight: 700;
+    }
+.toc {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    margin-bottom: 2em;
+    border-radius: 8px;
+    }
+.toc h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    }
+.toc ul {
+    list-style-type: none;
+    padding-left: 0;
+    }
+.toc ul ul {
+    padding-left: 20px;
+    }
+        .chart-container canvas {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain;
+}
+
+@media only screen and (max-device-width: 768px) {
+            body {
+                padding: 0;
+                margin: 0;
+                font-family: PingFang SC;
+                font-size: 15px;
+                line-height: 1.5;
+            }
+
+            .container {
+                padding: 0;
+                margin: 16px 20px 30px;
+                box-shadow: none;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4 {
+                font-family: PingFang SC;
+            }
+
+            h1 {
+                font-size: 1.87em;
+                line-height: 1.6;
+                margin-bottom: 0.5em;
+                text-align: center;
+            }
+
+            h2 {
+                font-size: 1.6em;
+                font-weight: 600;
+                margin-top: 1.3em;
+                margin-bottom: 0.8em;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 0.5em;
+            }
+
+            h3 {
+                font-size: 1.2em;
+                font-weight: 600;
+                margin-top: 1em;
+                margin-bottom: 0.6em;
+            }
+
+            h4 {
+                font-size: 1.1em;
+                font-weight: 500;
+                margin-top: 1em;
+                margin-bottom: 0.5em;
+                font-style: normal;
+            }
+
+            h5 {
+                font-size: 1em;
+                font-weight: 500;
+                margin-bottom: 1.2em;
+            }
+
+            ul,
+            ol {
+                font-size: 1em; /* Equivalent to 17.6px if base is 16px */
+                font-weight: 400;
+                margin-bottom: 1.2em;
+                line-height: 1.8;
+            }
+
+            p {
+                font-size: 1em;
+                line-height: 1.8; /* Equivalent to 17.6px if base is 16px */
+                font-weight: 400;
+                margin-top: 0.8em;
+                margin-bottom: 0.8em;
+            }
+
+            blockquote {
+                padding: 1em 1.2em;
+
+            p {
+                margin: 0;
+            }
+        }
+
+        figcaption {
+            margin-top: 0.5em;
+            font-size: 0.8em; /* Equivalent to 17.6px if base is 16px */
+            font-weight: 400;
+            text-align: center;
+            font-style: normal;
+            color: #7F8896;
+        }
+
+        img {
+            display: block;
+            overflow: hidden;
+            max-width: 100%;
+            max-height: 335px;
+            margin: 1em auto;
+            border-radius: 8px;
+        }
+        }</style>
+<link rel="stylesheet" href="https://static.skywork.ai/fe/skywork-site-assets/styles/doc_reference_style.css?v=1950048756891992064"/></head>
+<body>
+<div class="container">
+<h1 id="section-1">Bloomberg 시장 지표 매뉴얼: 주요 티커 해설 및 분석</h1>
+<nav aria-label="Table of contents" class="toc">
+<h3 id="section-0-1">목차</h3>
+<ul>
+<li><a href="#section-intro">서론: Bloomberg 티커와 시장 지표의 이해</a></li>
+<li><a href="#section-equity">1. 주식 시장 지표 (Equity Market Indicators)</a>
+<ul>
+<li><a href="#section-equity-indices">주요 주가 지수: SPX, NDX, KOSPI2, MXEF0CX0</a></li>
+<li><a href="#section-equity-sector">섹터 및 테마 ETF: SOX, KRE, ICLN, VNQ, LIT</a></li>
+<li><a href="#section-equity-regional">지역 및 국가 ETF: EWT</a></li>
+</ul>
+</li>
+<li><a href="#section-volatility">2. 변동성 지표 (Volatility Indicators)</a>
+<ul>
+<li><a href="#section-volatility-vix">주식 시장 변동성: VIX, VXN</a></li>
+<li><a href="#section-volatility-bond-fx-comm">채권, 외환 및 원자재 변동성: MOVE, JPMVXYGL, OVX</a></li>
+</ul>
+</li>
+<li><a href="#section-interest-rates">3. 금리 및 채권 지표 (Interest Rate &amp; Bond Indicators)</a>
+<ul>
+<li><a href="#section-interest-rates-yields">미국 국채 수익률: US0003M, USGG2YR, USGG5YR, USGG10YR</a></li>
+<li><a href="#section-interest-rates-international">주요국 국채 수익률: G2USG2YR, GBTP10YR, GKRK10</a></li>
+<li><a href="#section-interest-rates-policy">정책 금리, SOFR 및 인플레이션 기대: FDTR, SOFRRATE, USGGBE10</a></li>
+<li><a href="#section-interest-rates-bondetf">채권 ETF: EMB, JNK</a></li>
+</ul>
+</li>
+<li><a href="#section-credit">4. 신용 및 기업 부채 지표 (Credit &amp; Corporate Debt Indicators)</a>
+<ul>
+<li><a href="#section-credit-cds">신용부도스와프(CDS) 지수: CDX, ITRX</a></li>
+<li><a href="#section-credit-sovereign">국가 신용 위험(Sovereign CDS): KOREA CDS, EUCDS10</a></li>
+<li><a href="#section-credit-single">개별 기업 신용 위험(Single-Name CDS)</a></li>
+</ul>
+</li>
+<li><a href="#section-currency">5. 통화 지표 (Currency Indicators)</a>
+<ul>
+<li><a href="#section-currency-dxy">미국 달러 인덱스 (DXY Curncy)</a></li>
+<li><a href="#section-currency-pairs">주요 통화쌍: USDKRW, EURUSD, USDCNH</a></li>
+<li><a href="#section-currency-digital">디지털 자산: XBTUSD</a></li>
+</ul>
+</li>
+<li><a href="#section-commodities">6. 원자재 지표 (Commodity Indicators)</a>
+<ul>
+<li><a href="#section-commodities-oil">국제 유가: CL1, CO1</a></li>
+<li><a href="#section-commodities-index">원자재 지수 및 기타: GSCPI, EUA</a></li>
+</ul>
+</li>
+<li><a href="#section-economic">7. 주요 경제 지표 (Key Economic Indicators)</a>
+<ul>
+<li><a href="#section-economic-inflation">인플레이션 지표: PCE CYOY</a></li>
+<li><a href="#section-economic-labor">노동 시장 지표: INJCJC, PRODNFR%</a></li>
+<li><a href="#section-economic-growth">성장 및 심리 지표: CONCCONF, MPMIGLMA, G7DEBTGDP</a></li>
+<li><a href="#section-economic-trade">글로벌 무역 지표: BDIY, SHSPSCFI</a></li>
+<li><a href="#section-economic-china">중국 경제 지표: CNGDPYOY, MPMICNMA</a></li>
+</ul>
+</li>
+<li><a href="#section-conclusion">결론: 종합적 시장 분석을 위한 지표 활용</a></li>
+</ul>
+</nav>
+<h2 id="section-intro">서론: Bloomberg 티커와 시장 지표의 이해</h2>
+<p>금융 시장은 복잡하게 얽힌 수많은 정보의 집합체입니다. 투자자와 분석가들은 이 거대한 정보의 바다에서 의미 있는 신호를 포착하기 위해 다양한 시장 지표를 활용합니다. <strong>Bloomberg 터미널</strong>은 이러한 금융 데이터에 접근하는 가장 강력한 도구 중 하나로, 고유한 &#39;티커(Ticker)&#39; 시스템을 통해 전 세계의 주식, 채권, 원자재, 통화 등 방대한 정보를 표준화하여 제공합니다. <a href="https://data.bloomberglp.com/professional/sites/10/Getting-Started-Guide-for-Students-English.pdf" target="_blank">Bloomberg는 24시간 운영되는 글로벌 금융 서비스 시스템</a>으로, 신뢰할 수 있는 금융, 경제 정보를 제공합니다.</p>
+<p>Bloomberg 티커는 일반적으로 세 부분으로 구성됩니다: <strong>기본 심볼(Identifier)</strong>, <strong>시장 섹터(Yellow Key)</strong>, 그리고 필요에 따라 <strong>거래소 코드(Exchange Code)</strong>가 추가됩니다. 예를 들어, &#39;SPX Index&#39;는 S&amp;;P 500 지수를 의미하며, &#39;SPX&#39;가 기본 심볼, &#39;Index&#39;가 시장 섹터를 나타냅니다. 이러한 구조를 이해하는 것은 원하는 데이터에 빠르고 정확하게 접근하는 첫걸음입니다.</p>
+<figure>
+<img alt="블룸버그 터미널" src="https://picture-search.tiangong.cn/image/rt/f30922e0b8435956b75f0dadac5b29c3.jpg" style="max-height: 280px; max-width: 100%;"/>
+<figcaption>실시간 금융 데이터를 보여주는 블룸버그 터미널과 전용 키보드</figcaption>
+</figure>
+<blockquote>본 매뉴얼은 제공된 Bloomberg 티커 목록을 바탕으로 각 지표의 명칭, 의미, 그리고 시장 분석에서의 활용 방안을 체계적으로 정리하는 것을 목표로 합니다. 이를 통해 복잡한 시장 동향을 종합적으로 파악하고, 더 나은 투자 결정을 내리는 데 도움을 드리고자 합니다.</blockquote>
+<h2 id="section-equity">1. 주식 시장 지표 (Equity Market Indicators)</h2>
+<p>주식 시장 지표는 특정 국가나 지역, 산업의 전반적인 경제 상황과 투자 심리를 반영하는 가장 대표적인 바로미터입니다. 주가 지수는 시장을 구성하는 주요 기업들의 주가 움직임을 종합하여 산출되며, 경제의 건전성을 판단하는 핵심 기준으로 활용됩니다. <a href="https://www.oanda.com/sg-en/trade-tap-blog/asset-classes/indices/why-stock-market-indices-important/" target="_blank">주요 주가 지수의 성과는 시장 전망과 글로벌 경제의 건전성을 판단하는 데 핵심적인 역할</a>을 합니다.</p>
+<h3 id="section-equity-indices">주요 주가 지수: SPX, NDX, KOSPI2, MXEF0CX0</h3>
+<p>주가 지수는 시장의 전반적인 흐름을 한눈에 파악하게 해줍니다. 제공된 목록의 대표적인 지수는 다음과 같습니다.</p>
+<ul>
+<li><strong>SPX Index</strong>: S&amp;P 500 지수를 의미합니다. <a href="https://www.spglobal.com/spdji/en/indices/equity/sp-500/" target="_blank">S&amp;P Global에 따르면, 이 지수는 미국 대형주 시장을 가장 잘 나타내는 단일 지표</a>로 널리 인정받으며, 미국 상장 기업 시가총액의 약 80%를 차지합니다. 이는 미국 경제의 건강 상태를 보여주는 핵심 지표로 간주됩니다.</li>
+<li><strong>NDX Index</strong>: Nasdaq 100 지수를 나타냅니다. 금융주를 제외한 나스닥 상장 상위 100개 기술 중심 기업으로 구성되어, 기술 산업의 성장성과 투자 동향을 파악하는 데 중요합니다.</li>
+<li><strong>KOSPI2 Index</strong>: 한국의 KOSPI 200 지수를 의미합니다. 한국 유가증권시장에 상장된 우량 기업 200개 종목으로 구성되어 한국 경제 및 주식 시장의 대표 지표로 사용됩니다.</li>
+<li><strong>MXEF0CX0 Index</strong>: MSCI Emerging Markets Index로, 신흥국 주식 시장의 전반적인 성과를 추적하는 대표적인 지수입니다. 글로벌 자금의 신흥국 유출입 동향을 파악하는 데 중요합니다.</li>
+<li><strong>BKX Index</strong>: KBW Nasdaq Bank Index로, 미국 대형 은행들의 주가를 추종하여 금융 산업의 건전성을 나타냅니다.</li>
+</ul>
+<figure>
+<img alt="뉴욕 증권 거래소" src="https://picture-search.tiangong.cn/image/rt/af64bc58a256a356da6074b09a57ee54.jpg" style="max-height: 280px; max-width: 100%;"/>
+<figcaption>뉴욕 증권 거래소(NYSE)의 트레이더와 주가 정보가 표시된 대형 스크린</figcaption>
+</figure>
+<h3 id="section-equity-sector">섹터 및 테마 ETF: SOX, KRE, ICLN, VNQ, LIT</h3>
+<p>특정 산업이나 테마의 성과를 추적하는 지수 및 상장지수펀드(ETF)는 시장의 세부적인 동향을 파악하는 데 유용합니다.</p>
+<ul>
+<li><strong>SOX Index</strong>: PHLX Semiconductor Index로, 반도체 설계, 제조, 유통 및 판매에 관련된 기업들로 구성됩니다. 반도체 산업은 기술 섹터의 핵심이자 글로벌 공급망의 중요 지표이므로, 이 지수는 기술 경기 순환을 예측하는 데 널리 사용됩니다.</li>
+<li><strong>KRE US Equity</strong>: SPDR S&amp;P Regional Banking ETF를 나타냅니다. 미국 지역 은행들의 주가 움직임을 추적하며, 미국 중소기업 및 지방 경제의 건전성과 금융 시스템의 안정성을 가늠하는 지표로 활용됩니다.</li>
+<li><strong>ICLN US Equity</strong>: iShares Global Clean Energy ETF입니다. 전 세계 클린 에너지 관련 기업에 투자하며, 친환경 정책, 기술 발전, 그리고 관련 산업의 성장성을 반영합니다.</li>
+<li><strong>VNQ US Equity</strong>: Vanguard Real Estate ETF로, 미국 부동산 투자 신탁(REITs) 시장의 성과를 추적합니다. 부동산 시장 동향과 금리 변화에 대한 민감도를 파악하는 데 사용됩니다.</li>
+<li><strong>LIT US Equity</strong>: Global X Lithium &amp; Battery Tech ETF로, 리튬 채굴 및 배터리 제조 관련 기업에 투자합니다. 전기차 및 에너지 저장 산업의 성장성을 나타내는 지표입니다.</li>
+</ul>
+<h3 id="section-equity-regional">지역 및 국가 ETF: EWT</h3>
+<ul>
+<li><strong>EWT US Equity</strong>: iShares MSCI Taiwan ETF를 의미합니다. 대만 주식 시장, 특히 TSMC와 같은 대형 기술주에 대한 노출을 제공하여 글로벌 반도체 공급망 및 기술주 동향을 파악하는 데 중요한 역할을 합니다.</li>
+</ul>
+<h2 id="section-volatility">2. 변동성 지표 (Volatility Indicators)</h2>
+<p>변동성 지수는 시장 참여자들의 불안감이나 불확실성을 수치화한 것으로, 종종 &#39;공포 지수&#39;라고도 불립니다. 이 지수가 상승하면 시장의 위험 회피 심리가 커지고 있음을 의미하며, 하락은 시장이 안정되고 있음을 시사합니다.</p>
+<h3 id="section-volatility-vix">주식 시장 변동성: VIX, VXN</h3>
+<p><strong>VIX Index</strong>는 목록에서 가장 빈번하게 등장하는 지표 중 하나로, 시카고 옵션 거래소(CBOE) 변동성 지수(Volatility Index)를 의미합니다. <a href="https://www.investopedia.com/terms/v/vix.asp" target="_blank">Investopedia에 따르면, VIX는 S&amp;P 500 지수 옵션 가격을 기반으로 향후 30일간의 시장 기대 변동성을 측정</a>합니다. 일반적으로 VIX 지수는 주가와 반대로 움직이는 경향이 있습니다.</p>
+<ul>
+<li><strong>VXN Index</strong>: CBOE Nasdaq-100 Volatility Index로, VIX가 S&amp;;P 500의 변동성을 측정하는 것처럼, VXN은 Nasdaq 100 지수의 변동성을 측정합니다. 기술주 시장의 투자 심리를 파악하는 데 사용됩니다.</li>
+</ul>
+<blockquote>VIX 지수가 20 미만이면 시장이 안정적이라고 평가되며, 30을 넘어서면 변동성이 높은 위험 구간으로 간주됩니다. 투자자들은 VIX를 통해 포트폴리오 위험을 관리하거나 시장 변동성에 직접 투자하기도 합니다.</blockquote>
+<div class="chart-container" id="canvas-parent-1" data-sk-source-container="chart" data-sk-source-id="QFSXKW" data-sk-source-type="web_search">
+<canvas id="vixVsSpxChart"></canvas>
+</div>
+<script>
+            const ctx1 = document.getElementById('vixVsSpxChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    datasets: [{
+                        label: 'S&P 500 지수 (SPX)',
+                        data: [4800, 4900, 5000, 4950, 5100, 5200, 5150, 4800, 4600, 4700, 4900, 5000],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        yAxisID: 'y',
+                        tension: 0.1
+                    }, {
+                        label: 'VIX 지수',
+                        data: [14, 13, 12, 15, 13, 12, 14, 25, 30, 28, 20, 15],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        yAxisID: 'y1',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'S&P 500 지수와 VIX 지수의 역상관 관계 (개념도)',
+                            font: { size: 16 }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'S&P 500'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'VIX'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+<h3 id="section-volatility-bond-fx-comm">채권, 외환 및 원자재 변동성: MOVE, JPMVXYGL, OVX</h3>
+<ul>
+<li><strong>MOVE Index</strong> (Merrill Lynch Option Volatility Estimate): 미국 국채 시장의 변동성에 대한 기대를 측정하는 지표입니다. 주식 시장의 VIX와 유사한 역할을 채권 시장에서 수행하며, 금리 변동에 대한 시장의 불안감을 나타냅니다.</li>
+<li><strong>JPMVXYGL Index</strong>: JPMorgan Global FX Volatility Index로, 주요 통화들의 변동성을 종합하여 측정합니다. 글로벌 외환 시장의 안정성을 평가하는 데 사용됩니다.</li>
+<li><strong>OVX Index</strong>: CBOE Crude Oil ETF Volatility Index로, 원유 가격의 변동성을 측정합니다. 지정학적 리스크나 공급 충격이 에너지 시장에 미치는 영향을 파악하는 데 유용합니다.</li>
+</ul>
+<h2 id="section-interest-rates">3. 금리 및 채권 지표 (Interest Rate &amp; Bond Indicators)</h2>
+<p>금리는 경제의 혈액 순환과 같습니다. 중앙은행의 정책 금리부터 시장에서 결정되는 국채 수익률에 이르기까지, 금리의 움직임은 기업의 투자, 가계의 소비, 그리고 모든 자산의 가치 평가에 결정적인 영향을 미칩니다. <a href="https://www.markets.com/research/stock-index-analysis-how-rising-interest-rates-are-influencing-the-s-and-p-500" target="_blank">금리는 중앙은행이 경제 성장과 인플레이션을 관리하기 위해 사용하는 근본적인 도구</a>이며, 금리 변동은 주식 시장에 상당한 영향을 미칠 수 있습니다.</p>
+<figure>
+<img alt="미국 연방준비제도이사회 건물" src="https://picture-search.tiangong.cn/image/rt/721ee98ebca8dbd6f2bcf7b1bcb68791.jpg" style="max-height: 280px; max-width: 100%;"/>
+<figcaption>미국 워싱턴 D.C.에 위치한 매리너 S. 에클스 연방준비제도이사회 건물</figcaption>
+</figure>
+<h3 id="section-interest-rates-yields">미국 국채 수익률: US0003M, USGG2YR, USGG5YR, USGG10YR</h3>
+<p>미국 국채는 전 세계 금융 시장에서 가장 안전한 자산으로 여겨지며, 그 수익률은 글로벌 &#39;무위험 이자율&#39;의 기준이 됩니다.</p>
+<ul>
+<li><strong>USGG10YR Index</strong>: 미국 10년 만기 국채 수익률입니다. 이는 주택담보대출, 회사채 등 장기 금리의 기준이 되며, 글로벌 경제의 장기 성장 및 인플레이션 전망을 반영합니다.</li>
+<li><strong>USGG5YR Index</strong>: 미국 5년 만기 국채 수익률로, 중기적인 경제 전망과 통화 정책 기대를 반영합니다.</li>
+<li><strong>USGG2YR Index</strong>: 미국 2년 만기 국채 수익률입니다. 이는 연방준비제도(Fed)의 단기 정책 금리 전망에 매우 민감하게 반응하여 중요한 선행 지표로 활용됩니다.</li>
+<li><strong>US0003M Index</strong>: 미국 3개월 만기 국채(T-Bill) 수익률로, 가장 단기적인 시장 금리와 유동성 상황을 나타냅니다.</li>
+</ul>
+<p>특히 <strong>장단기 금리차 (10년물 금리 - 2년물 금리)</strong>는 중요한 경기 예측 지표입니다. 이 금리차가 축소되거나 역전(2년물 금리가 10년물 금리보다 높아지는 현상)되면, 이는 향후 경기 침체의 강력한 신호로 해석되는 경우가 많습니다.</p>
+<h3 id="section-interest-rates-international">주요국 국채 수익률: G2USG2YR, GBTP10YR, GKRK10</h3>
+<ul>
+<li><strong>G2USG2YR Index</strong>: 독일 2년 만기 국채 수익률로, 유럽중앙은행(ECB)의 통화 정책에 대한 시장 기대를 반영합니다.</li>
+<li><strong>GBTP10YR Index</strong>: 영국 10년 만기 국채(Gilt) 수익률로, 영국의 경제 상황과 인플레이션 전망을 나타냅니다.</li>
+<li><strong>GKRK10 Index</strong>: 대한민국 10년 만기 국고채 수익률로, 국내 장기 시장 금리의 기준이 됩니다.</li>
+</ul>
+<h3 id="section-interest-rates-policy">정책 금리, SOFR 및 인플레이션 기대: FDTR, SOFRRATE, USGGBE10</h3>
+<ul>
+<li><strong>FDTR Index</strong>: 유효 연방기금금리(Effective Federal Funds Rate)입니다. Fed가 통화 정책 목표를 달성하기 위해 설정하는 기준 금리로, 금융 시장의 모든 단기 금리에 영향을 미칩니다. <a href="https://www.usbank.com/investing/financial-perspectives/market-news/how-do-rising-interest-rates-affect-the-stock-market.html" target="_blank">Fed의 금리 인상은 기업의 자금 조달 비용을 높여 주식 시장에 부정적인 영향</a>을 줄 수 있습니다.</li>
+<li><strong>SOFRRATE Index</strong>: 담보부 익일물 융자금리(Secured Overnight Financing Rate)로, LIBOR를 대체하는 새로운 기준 금리입니다. 미국 국채를 담보로 하는 하루짜리 환매조건부채권(Repo) 거래를 기반으로 산출되어 신뢰성이 높습니다.</li>
+<li><strong>USGGBE10 Index</strong>: 미국 10년 기대 인플레이션율(10-Year Breakeven Inflation Rate)입니다. 이는 명목 국채 수익률과 물가연동국채(TIPS) 수익률의 차이로 계산되며, 시장이 향후 10년간 연평균 인플레이션을 어느 정도로 예상하는지를 보여줍니다.</li>
+</ul>
+<h3 id="section-interest-rates-bondetf">채권 ETF: EMB, JNK</h3>
+<ul>
+<li><strong>EMB US Equity</strong>: iShares J.P. Morgan USD Emerging Markets Bond ETF로, 신흥국 정부가 발행한 달러 표시 채권에 투자합니다. 신흥국의 신용 위험과 글로벌 투자자들의 위험 선호도를 파악하는 데 사용됩니다.</li>
+<li><strong>JNK US Equity</strong>: SPDR Bloomberg High Yield Bond ETF로, 미국 하이일드 채권 시장에 투자합니다. 신용 위험이 높은 기업들의 자금 조달 환경을 보여주는 지표입니다.</li>
+</ul>
+<h2 id="section-credit">4. 신용 및 기업 부채 지표 (Credit &amp; Corporate Debt Indicators)</h2>
+<p>신용 시장은 기업의 자금 조달 환경과 부도 위험을 직접적으로 보여주는 창입니다. 신용 스프레드(Credit Spread)와 신용부도스와프(CDS) 프리미엄은 기업의 재무 건전성과 시장의 위험 선호도를 측정하는 핵심 지표입니다.</p>
+<h3 id="section-credit-cds">신용부도스와프(CDS) 지수: CDX, ITRX</h3>
+<p>신용부도스와프(CDS)는 채권의 부도 위험 자체를 사고파는 파생상품입니다. CDS 프리미엄이 높을수록 해당 채권의 부도 가능성이 높다고 시장이 판단하는 것입니다.</p>
+<ul>
+<li><strong>CDX HY CDSI GEN 5Y SPRD Corp</strong>: 북미 지역의 하이일드(고위험 고수익) 채권 바스켓에 대한 5년 만기 CDS 인덱스 스프레드입니다. 이 지수가 상승하면 투기 등급 기업들의 부도 위험이 높아지고 있음을 의미하며, 이는 경기 둔화나 금융 불안의 신호로 해석될 수 있습니다.</li>
+<li><strong>CDX IG 5Y Index</strong>: 북미 지역의 투자등급(Investment Grade) 기업들에 대한 CDS 인덱스입니다. 우량 기업들의 신용 위험 변화를 보여줍니다.</li>
+<li><strong>ITRX XOVER CDSI GEN 5Y Corp</strong>: iTraxx Crossover Index로, 유럽 지역 하이일드 기업들에 대한 CDS 인덱스입니다. 유럽 신용 시장의 위험도를 측정하는 데 사용됩니다.</li>
+</ul>
+<h3 id="section-credit-sovereign">국가 신용 위험(Sovereign CDS): KOREA CDS, EUCDS10</h3>
+<ul>
+<li><strong>KOREA CDS USD SR 5Y D14 Curncy</strong>: 대한민국 정부가 발행한 외화표시채권(외평채)에 대한 5년 만기 CDS 프리미엄입니다. 이는 국가 부도 위험을 나타내는 지표로, &#39;국가 신용등급&#39;과 함께 한국 경제의 대외 신인도를 측정하는 데 사용됩니다.</li>
+<li><strong>EUCDS10 Index</strong>: 서유럽 10개국 국채에 대한 CDS 프리미엄을 종합한 지수로, 유로존 전체의 시스템 리스크를 평가하는 데 활용됩니다.</li>
+</ul>
+<h3 id="section-credit-single">개별 기업 신용 위험(Single-Name CDS)</h3>
+<p>특정 기업의 부도 위험을 측정하는 CDS 프리미엄은 해당 기업의 재무 건전성을 평가하는 중요한 지표입니다. 목록에 포함된 <strong>JPMCC CDS</strong>(JP모건체이스), <strong>GS CDS</strong>(골드만삭스), <strong>MS CDS</strong>(모건스탠리), <strong>BOFA CDS</strong>(뱅크오브아메리카) 등은 주요 금융기관의 신용 위험을 나타내며, 금융 시스템 전반의 안정성을 가늠하는 데 참고됩니다.</p>
+<h2 id="section-currency">5. 통화 지표 (Currency Indicators)</h2>
+<p>통화 가치는 각국의 경제 펀더멘털, 통화 정책, 그리고 글로벌 자금 흐름을 종합적으로 반영합니다. 환율 변동은 수출입 기업의 채산성, 해외 투자 자산의 가치, 그리고 수입 물가에 직접적인 영향을 미칩니다.</p>
+<h3 id="section-currency-dxy">미국 달러 인덱스 (DXY Curncy)</h3>
+<p><strong>DXY Curncy</strong>는 유로, 일본 엔, 영국 파운드 등 6개 주요국 통화 대비 미국 달러의 가치를 측정한 지수입니다. <a href="https://acy.com/en/market-news/education/top-factors-drive-us-dollar-index-dxy-value-182932/" target="_blank">DXY는 미국 달러의 강세를 나타내는 핵심 지표</a>로, 글로벌 경제에서 달러의 위상을 보여줍니다. 달러 강세(DXY 상승)는 일반적으로 글로벌 안전자산 선호 심리가 강해지거나, 미국 경제가 타국에 비해 견고할 때 나타납니다.</p>
+<figure>
+<img alt="미국 달러와 유로 지폐" src="https://picture-search.tiangong.cn/image/rt/9d64ffa55721316df846ad52fd9d4700.jpg" style="max-height: 280px; max-width: 100%;"/>
+<figcaption>세계 주요 통화인 미국 달러와 유로 지폐</figcaption>
+</figure>
+<h3 id="section-currency-pairs">주요 통화쌍: USDKRW, EURUSD, USDCNH</h3>
+<p>개별 통화쌍은 두 국가 간의 상대적인 경제 상황과 정책 방향을 보여줍니다.</p>
+<ul>
+<li><strong>USDKRW Curncy</strong>: 미국 달러 대비 대한민국 원화 환율입니다. 한국의 수출 의존도가 높은 경제 구조상 원/달러 환율은 국내 기업 실적과 증시에 큰 영향을 미칩니다.</li>
+<li><strong>EURUSD Curncy</strong>: 유로 대비 미국 달러 환율로, 전 세계에서 가장 많이 거래되는 통화쌍입니다. 미국과 유로존의 경제 성장률, 금리 정책 차이를 반영합니다.</li>
+<li><strong>USDCNH Curncy</strong>: 역외 시장에서 거래되는 미국 달러 대비 중국 위안화 환율입니다. 중국의 경제 상황과 위안화 국제화 정책, 그리고 미중 무역 관계를 파악하는 데 중요한 지표입니다.</li>
+</ul>
+<h3 id="section-currency-digital">디지털 자산: XBTUSD</h3>
+<ul>
+<li><strong>XBTUSD Curncy</strong>: 비트코인 대 미국 달러 가격을 나타냅니다. 비트코인은 가장 대표적인 디지털 자산으로, 때로는 위험 자산으로, 때로는 인플레이션 헤지 수단으로 인식되며 전통 금융 시장과의 상호작용이 점차 커지고 있습니다.</li>
+</ul>
+<h2 id="section-commodities">6. 원자재 지표 (Commodity Indicators)</h2>
+<p>원자재 가격은 글로벌 산업 생산 활동과 인플레이션 압력을 측정하는 중요한 선행 지표입니다. 특히 에너지 가격은 전반적인 생산 비용과 소비 심리에 큰 영향을 미칩니다.</p>
+<h3 id="section-commodities-oil">국제 유가: CL1, CO1</h3>
+<p>국제 유가는 글로벌 경제의 성장 동력과 직결됩니다. 유가 상승은 경기 회복의 신호일 수 있지만, 과도한 상승은 기업의 생산 비용과 가계의 소비 여력을 압박하여 인플레이션을 자극하고 경제 성장을 저해할 수 있습니다.</p>
+<ul>
+<li><strong>CL1 Comdty</strong>: 서부 텍사스산 원유(WTI) 선물 가격입니다. 주로 북미 지역의 유가 기준으로 사용됩니다.</li>
+<li><strong>CO1 Comdty</strong>: 브렌트유 선물 가격입니다. 유럽, 아프리카, 중동 지역에서 생산되는 원유의 가격 기준으로, 전 세계 원유 가격의 벤치마크 역할을 합니다.</li>
+</ul>
+<figure>
+<img alt="원유 시추 장비" src="https://picture-search.tiangong.cn/image/rt/f0027b8cc40ee6174195e3808b13a555.jpg" style="max-height: 280px; max-width: 100%;"/>
+<figcaption>지상에서 원유를 채굴하는 펌프잭(유정탑)</figcaption>
+</figure>
+<h3 id="section-commodities-index">원자재 지수 및 기타: GSCPI, EUA</h3>
+<ul>
+<li><strong>GSCPI Index</strong>: S&amp;P GSCI (구 Goldman Sachs Commodity Index)로, 에너지, 농산물, 산업금속, 귀금속 등 다양한 원자재 가격을 종합한 지수입니다. 글로벌 원자재 시장의 전반적인 동향과 인플레이션 압력을 측정하는 데 사용됩니다.</li>
+<li><strong>EUA Comdty</strong>: 유럽연합 배출권거래제(EU ETS)의 탄소배출권 선물 가격입니다. 기후 변화 대응 정책과 기업의 환경 비용 부담을 나타내는 지표로 중요성이 커지고 있습니다.</li>
+</ul>
+<h2 id="section-economic">7. 주요 경제 지표 (Key Economic Indicators)</h2>
+<p>경제 지표는 한 국가의 경제 활동 수준을 직접적으로 측정하는 데이터입니다. 고용, 생산, 소비, 물가 등 다양한 지표들은 경제의 현재 상태를 진단하고 미래를 예측하는 데 필수적입니다. <a href="https://datatopics.worldbank.org/world-development-indicators/themes/economy.html" target="_blank">세계은행(World Bank)은 GDP, 소비, 투자, 물가와 같은 경제 지표들이 경제의 규모와 구조, 성장과 위축을 측정</a>한다고 설명합니다.</p>
+<h3 id="section-economic-inflation">인플레이션 지표: PCE CYOY</h3>
+<p>인플레이션, 즉 물가 상승률은 중앙은행의 통화 정책 결정에 가장 큰 영향을 미치는 변수입니다. 물가 안정을 목표로 하는 중앙은행은 인플레이션 수준에 따라 금리를 조정합니다.</p>
+<ul>
+<li><strong>PCE CYOY Index</strong>: 개인소비지출(Personal Consumption Expenditures) 물가 지수의 전년 동기 대비 상승률입니다. 미국 연방준비제도(Fed)는 소비자물가지수(CPI)보다 PCE를 더 선호하는 인플레이션 지표로 삼습니다. Fed는 PCE 상승률 2%를 정책 목표로 설정하고 있습니다.</li>
+</ul>
+<h3 id="section-economic-labor">노동 시장 지표: INJCJC, PRODNFR%</h3>
+<ul>
+<li><strong>INJCJC Index</strong>: 미국 주간 신규 실업수당 청구 건수(Initial Jobless Claims)입니다. 고용 시장의 건강 상태를 가장 빠르게 보여주는 지표 중 하나로, 매주 발표되어 시장의 주목을 받습니다.</li>
+<li><strong>PRODNFR% Index</strong>: 미국 비농업부문 고용자 수(Non-farm Payrolls) 변동률입니다. 고용 시장의 전반적인 상황과 경제의 성장 동력을 보여주는 핵심 월간 지표입니다.</li>
+</ul>
+<h3 id="section-economic-growth">성장 및 심리 지표: CONCCONF, MPMIGLMA, G7DEBTGDP</h3>
+<ul>
+<li><strong>CONCCONF Index</strong>: 컨퍼런스보드 소비자 신뢰지수(Consumer Confidence Index)입니다. 소비자의 현재 경제 상황에 대한 인식과 미래 전망을 나타내며, 향후 소비 지출을 예측하는 데 사용됩니다.</li>
+<li><strong>MPMIGLMA Index</strong>: 글로벌 제조업 구매관리자지수(PMI)입니다. 전 세계 제조업 경기의 확장 또는 위축 국면을 보여주는 중요한 선행 지표입니다.</li>
+<li><strong>G7DEBTGDP Index</strong>: G7 국가들의 국내총생산(GDP) 대비 정부 부채 비율입니다. 주요 선진국의 재정 건전성을 평가하는 지표입니다.</li>
+</ul>
+<h3 id="section-economic-trade">글로벌 무역 지표: BDIY, SHSPSCFI</h3>
+<ul>
+<li><strong>BDIY Index</strong>: 발틱 건화물 운임지수(Baltic Dry Index)로, 철광석, 석탄, 곡물 등 원자재를 운반하는 벌크선의 운임료를 나타냅니다. 글로벌 교역량과 원자재 수요를 반영하는 선행 지표로 간주됩니다.</li>
+<li><strong>SHSPSCFI Index</strong>: 상하이 컨테이너 운임지수(Shanghai Containerized Freight Index)로, 상하이에서 출발하는 주요 항로의 컨테이너 운임을 반영합니다. 글로벌 소비재 교역 및 공급망 상황을 보여줍니다.</li>
+</ul>
+<h3 id="section-economic-china">중국 경제 지표: CNGDPYOY, MPMICNMA</h3>
+<ul>
+<li><strong>CNGDPYOY Index</strong>: 중국의 국내총생산(GDP) 전년 동기 대비 성장률입니다. 세계 2위 경제 대국인 중국의 성장세는 글로벌 경제에 큰 영향을 미칩니다.</li>
+<li><strong>MPMICNMA Index</strong>: 중국 국가통계국이 발표하는 공식 제조업 구매관리자지수(PMI)입니다. 중국 제조업 경기를 판단하는 핵심 지표입니다.</li>
+</ul>
+<h2 id="section-conclusion">결론: 종합적 시장 분석을 위한 지표 활용</h2>
+<p>지금까지 살펴본 Bloomberg 티커들은 각기 다른 시장의 단면을 보여주지만, 서로 유기적으로 연결되어 있습니다. 예를 들어, 인플레이션 지표(PCE)의 상승은 연준의 금리 인상(FDTR 상승) 기대를 높이고, 이는 기술주 중심의 나스닥 지수(NDX)에 부담을 주며, 시장의 불확실성을 키워 변동성 지수(VIX)를 끌어올릴 수 있습니다.</p>
+<p>따라서 성공적인 시장 분석과 투자를 위해서는 개별 지표를 독립적으로 보기보다는, 여러 지표를 종합하여 거시 경제의 큰 그림을 읽어내는 능력이 중요합니다. 본 매뉴얼이 제공하는 각 티커에 대한 이해를 바탕으로, 지표들 간의 상호작용을 추적하고 자신만의 시장 분석 프레임워크를 구축해 나간다면, 끊임없이 변화하는 금융 시장 환경에 보다 효과적으로 대응할 수 있을 것입니다.</p>
+<blockquote>시장은 과거의 데이터와 현재의 심리, 그리고 미래에 대한 기대로 움직입니다. 이 지표들은 그 움직임을 이해하기 위한 필수적인 언어와 같습니다.</blockquote>
+<div class="chart-container" id="canvas-parent-2">
+<canvas id="interestRateVsStockChart"></canvas>
+</div>
+<script>
+            const ctx2 = document.getElementById('interestRateVsStockChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['저금리 환경', '금리 인상 초기', '고금리 지속', '금리 인하 기대'],
+                    datasets: [{
+                        label: '주식 시장 성과 (개념)',
+                        data: [15, 5, -5, 10],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '금리 환경 변화에 따른 주식 시장 성과 (개념도)',
+                            font: { size: 16 }
+                        },
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '수익률 (%)'
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+<div class="reference-container">
+			<div class="reference-section">
+				<h3 class="reference-title">참고 자료</h3>
+				<div class="reference-list">
+					
+					<div class="reference-item">
+						<span class="reference-number">[1]</span>
+						<div class="reference-content">
+							<div class="reference-text-container">
+								<span class="reference-text">Limitations of Stock Indexes &amp; How to Use Them | Charles Schwab</span>
+									
+							</div>
+							<a href="https://www.schwab.com/learn/story/limitations-stock-indexes-how-to-use-them" class="reference-link" target="_blank">
+								https://www.schwab.com/learn/story/limitations-stock-indexes-how-to-use-them
+							</a>
+						</div>
+					</div>
+					
+					<div class="reference-item">
+						<span class="reference-number">[2]</span>
+						<div class="reference-content">
+							<div class="reference-text-container">
+								<span class="reference-text">[PDF] A study on the relation between VIX, S&amp;P500 and the CDX-index</span>
+									
+							</div>
+							<a href="https://core.ac.uk/download/pdf/43558302.pdf" class="reference-link" target="_blank">
+								https://core.ac.uk/download/pdf/43558302.pdf
+							</a>
+						</div>
+					</div>
+					
+					<div class="reference-item">
+						<span class="reference-number">[3]</span>
+						<div class="reference-content">
+							<div class="reference-text-container">
+								<span class="reference-text">Gauging Market Sentiment as a Contrarian Indicator</span>
+									
+							</div>
+							<a href="https://hightoweradvisors.com/blogs/well-th-blog/gauging-market-sentiment-as-a-contrarian-indicator" class="reference-link" target="_blank">
+								https://hightoweradvisors.com/blogs/well-th-blog/gauging-market-sentiment-as-a-contrarian-indicator
+							</a>
+						</div>
+					</div>
+					
+					<div class="reference-item">
+						<span class="reference-number">[4]</span>
+						<div class="reference-content">
+							<div class="reference-text-container">
+								<span class="reference-text">Bloomberg Terminal: Finding Government Bond Information</span>
+									
+							</div>
+							<a href="https://libguides.nypl.org/BloombergTerminal/governmentbonds" class="reference-link" target="_blank">
+								https://libguides.nypl.org/BloombergTerminal/governmentbonds
+							</a>
+						</div>
+					</div>
+					
+					<div class="reference-item">
+						<span class="reference-number">[5]</span>
+						<div class="reference-content">
+							<div class="reference-text-container">
+								<span class="reference-text">What&#39;s driving bonds and where might they be headed? | Invesco US</span>
+									
+							</div>
+							<a href="https://www.invesco.com/us/en/insights/driving-bonds-where-might-they-be-headed.html" class="reference-link" target="_blank">
+								https://www.invesco.com/us/en/insights/driving-bonds-where-might-they-be-headed.html
+							</a>
+						</div>
+					</div>
+					
+					<div class="reference-item">
+						<span class="reference-number">[6]</span>
+						<div class="reference-content">
+							<div class="reference-text-container">
+								<span class="reference-text">indicator</span>
+									
+							</div>
+							<a href="https://static-us-img.skywork.ai/prod/analysis/2025-07-29/6298450475799880160/1950024678810402816_0a64bcb656ca6609b4b367e243dec230.xlsx" class="reference-link" target="_blank">
+								https://static-us-img.skywork.ai/prod/analysis/2025-07-29/6298450475799880160/1950024678810402816_0a64bcb656ca6609b4b367e243dec230.xlsx
+							</a>
+						</div>
+					</div>
+					
+					<div class="reference-item">
+						<span class="reference-number">[7]</span>
+						<div class="reference-content">
+							<div class="reference-text-container">
+								<span class="reference-text">What&#39;s are the most watched credit spread benchmarks on ... - Quora</span>
+									
+							</div>
+							<a href="https://www.quora.com/Whats-are-the-most-watched-credit-spread-benchmarks-on-Bloomberg-Terminal" class="reference-link" target="_blank">
+								https://www.quora.com/Whats-are-the-most-watched-credit-spread-benchmarks-on-Bloomberg-Terminal
+							</a>
+						</div>
+					</div>
+					
+					<div class="reference-item">
+						<span class="reference-number">[8]</span>
+						<div class="reference-content">
+							<div class="reference-text-container">
+								<span class="reference-text">[PDF] Credit VIX: A New Tool for Measuring and Managing Credit Risk</span>
+									
+							</div>
+							<a href="https://www.spglobal.com/spdji/en/documents/education/education-credit-vix-a-new-tool-for-measuring-and-managing-credit-risk.pdf" class="reference-link" target="_blank">
+								https://www.spglobal.com/spdji/en/documents/education/education-credit-vix-a-new-tool-for-measuring-and-managing-credit-risk.pdf
+							</a>
+						</div>
+					</div>
+					
+					<div class="reference-item">
+						<span class="reference-number">[9]</span>
+						<div class="reference-content">
+							<div class="reference-text-container">
+								<span class="reference-text">What is the VIX volatility index &amp; why it matters</span>
+									
+							</div>
+							<a href="https://www.sunlifeglobalinvestments.com/en/insights/investor-education/understanding-market-volatility/what-is-the-vix-volatility-index-and-why-it-matters/" class="reference-link" target="_blank">
+								https://www.sunlifeglobalinvestments.com/en/insights/investor-education/understanding-market-volatility/what-is-the-vix-volatility-index-and-why-it-matters/
+							</a>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div></div>
+
+</body></html>

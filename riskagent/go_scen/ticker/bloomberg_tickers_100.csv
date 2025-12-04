@@ -1,0 +1,113 @@
+Ticker,Security_Type,Description,Use_Case,Category
+SPX,INDEX,S&P 500 Index,US major equity index - key market benchmark,Stock Indices
+INDU,INDEX,Dow Jones Industrial Average,30 large US companies - economic bellwether,Stock Indices
+CCMP,INDEX,NASDAQ Composite,Tech-heavy US index - innovation indicator,Stock Indices
+RTY,INDEX,Russell 2000,Small cap US stocks - domestic economy health,Stock Indices
+SX5E,INDEX,Euro Stoxx 50,Major European equity index,Stock Indices
+UKX,INDEX,FTSE 100,UK equity index,Stock Indices
+DAX,INDEX,DAX Index,German equity index - European economy,Stock Indices
+CAC,INDEX,CAC 40,French equity index,Stock Indices
+NKY,INDEX,Nikkei 225,Japanese equity index,Stock Indices
+HSI,INDEX,Hang Seng Index,Hong Kong equity index,Stock Indices
+MXEF,INDEX,MSCI Emerging Markets,Broad emerging markets exposure,Stock Indices
+MXWO,INDEX,MSCI World Index,Global developed markets,Stock Indices
+EEM US,EQUITY,iShares MSCI Emerging Markets ETF,EM equity ETF,Stock Indices
+FXI US,EQUITY,iShares China Large-Cap ETF,China equity exposure,Stock Indices
+EWZ US,EQUITY,iShares MSCI Brazil ETF,Brazil equity exposure,Stock Indices
+VIX,INDEX,CBOE Volatility Index,Fear gauge - market volatility,Volatility/Risk
+VVIX,INDEX,CBOE VIX of VIX,Volatility of volatility,Volatility/Risk
+MOVE,INDEX,MOVE Index,Bond volatility index,Volatility/Risk
+USGG10YR,INDEX,US Generic Govt 10 Year Yield,10-year Treasury yield - key rate benchmark,Interest Rates/Bonds
+USGG2YR,INDEX,US Generic Govt 2 Year Yield,2-year Treasury yield,Interest Rates/Bonds
+USGG5YR,INDEX,US Generic Govt 5 Year Yield,5-year Treasury yield,Interest Rates/Bonds
+USGG30YR,INDEX,US Generic Govt 30 Year Yield,30-year Treasury yield,Interest Rates/Bonds
+FDFD,INDEX,Fed Funds Rate,Federal Reserve target rate,Interest Rates/Bonds
+LUATTRUU,INDEX,Bloomberg Barclays US Aggregate Bond,US investment grade bonds,Interest Rates/Bonds
+HYG US,EQUITY,iShares iBoxx High Yield Corporate Bond ETF,High yield corporate bonds,Interest Rates/Bonds
+GDBR10,INDEX,German Government Bond 10 Year,German Bund yield,Interest Rates/Bonds
+GJGB10,INDEX,Japan Government Bond 10 Year,Japanese government bond yield,Interest Rates/Bonds
+GUKG10,INDEX,UK Gilt 10 Year,UK government bond yield,Interest Rates/Bonds
+CDX,INDEX,CDX Investment Grade Index,Investment grade CDS index,Interest Rates/Bonds
+CXHY,INDEX,CDX High Yield Index,High yield CDS index,Interest Rates/Bonds
+ITRAXX,INDEX,iTraxx Europe,European credit index,Credit Risk
+DXY,CURNCY,US Dollar Index,Dollar strength indicator,Credit Risk
+EURUSD,CURNCY,Euro/US Dollar,Most traded currency pair,Credit Risk
+USDJPY,CURNCY,US Dollar/Japanese Yen,Risk-on/risk-off indicator,Currencies
+GBPUSD,CURNCY,British Pound/US Dollar,Cable - major pair,Currencies
+USDCHF,CURNCY,US Dollar/Swiss Franc,Safe haven currency,Currencies
+AUDUSD,CURNCY,Australian Dollar/US Dollar,Commodity currency,Currencies
+USDCAD,CURNCY,US Dollar/Canadian Dollar,North American pair,Currencies
+NZDUSD,CURNCY,New Zealand Dollar/US Dollar,Risk-sensitive currency,Currencies
+USDCNY,CURNCY,US Dollar/Chinese Yuan,China currency,Currencies
+USDINR,CURNCY,US Dollar/Indian Rupee,India currency,Currencies
+USDBRL,CURNCY,US Dollar/Brazilian Real,Brazil currency,Currencies
+USDMXN,CURNCY,US Dollar/Mexican Peso,Mexico currency,Currencies
+USDZAR,CURNCY,US Dollar/South African Rand,South Africa currency,Energy Commodities
+CL1,COMDTY,WTI Crude Oil,US oil benchmark,Energy Commodities
+CO1,COMDTY,Brent Crude Oil,International oil benchmark,Energy Commodities
+NG1,COMDTY,Natural Gas,Natural gas futures,Energy Commodities
+HO1,COMDTY,Heating Oil,Refined oil products,Energy Commodities
+XB1,COMDTY,RBOB Gasoline,Gasoline futures,Precious Metals
+GC1,COMDTY,Gold,Safe haven precious metal,Precious Metals
+SI1,COMDTY,Silver,Industrial precious metal,Precious Metals
+PL1,COMDTY,Platinum,Industrial precious metal,Precious Metals
+PA1,COMDTY,Palladium,Auto industry metal,Industrial Metals
+HG1,COMDTY,Copper,Economic bellwether metal,Industrial Metals
+LME_AL,COMDTY,Aluminum,Industrial metal,Industrial Metals
+LME_ZN,COMDTY,Zinc,Industrial metal,Industrial Metals
+LME_NI,COMDTY,Nickel,Industrial metal,Agricultural Commodities
+C1,COMDTY,Corn,Agricultural commodity,Agricultural Commodities
+S1,COMDTY,Soybeans,Agricultural commodity,Agricultural Commodities
+W1,COMDTY,Wheat,Agricultural commodity,Agricultural Commodities
+CC1,COMDTY,Cocoa,Soft commodity,Agricultural Commodities
+CT1,COMDTY,Cotton,Soft commodity,Agricultural Commodities
+SB1,COMDTY,Sugar,Soft commodity,Agricultural Commodities
+KC1,COMDTY,Coffee,Soft commodity,Economic Indicators
+GDP,INDEX,US GDP,Economic output,Economic Indicators
+CPI,INDEX,US Consumer Price Index,Inflation measure,Economic Indicators
+PPI,INDEX,US Producer Price Index,Producer inflation,Economic Indicators
+NFP,INDEX,US Nonfarm Payrolls,Employment indicator,Economic Indicators
+USURTOT,INDEX,US Unemployment Rate,Labor market health,Economic Indicators
+CPURNSA,INDEX,US CPI Urban Consumers NSA,Core inflation,Economic Indicators
+CONSSENT,INDEX,Consumer Sentiment,Consumer confidence,Economic Indicators
+LEI,INDEX,Leading Economic Indicators,Forward-looking economic data,Sector ETFs
+XLF US,EQUITY,Financial Select Sector SPDR Fund,Financial sector,Sector ETFs
+XLK US,EQUITY,Technology Select Sector SPDR Fund,Technology sector,Sector ETFs
+XLE US,EQUITY,Energy Select Sector SPDR Fund,Energy sector,Sector ETFs
+XLI US,EQUITY,Industrial Select Sector SPDR Fund,Industrial sector,Sector ETFs
+XLV US,EQUITY,Health Care Select Sector SPDR Fund,Healthcare sector,Sector ETFs
+XLP US,EQUITY,Consumer Staples Select Sector SPDR Fund,Consumer staples,Sector ETFs
+XLY US,EQUITY,Consumer Discretionary Select Sector SPDR Fund,Consumer discretionary,Sector ETFs
+XLU US,EQUITY,Utilities Select Sector SPDR Fund,Utilities sector,Sector ETFs
+XLB US,EQUITY,Materials Select Sector SPDR Fund,Materials sector,Sector ETFs
+XLRE US,EQUITY,Real Estate Select Sector SPDR Fund,Real estate sector,Technology/Innovation
+QQQ US,EQUITY,Invesco QQQ Trust,NASDAQ 100 ETF,Technology/Innovation
+ARKK US,EQUITY,ARK Innovation ETF,Innovation/disruptive tech,Technology/Innovation
+SOXX US,EQUITY,iShares PHLX Semiconductor ETF,Semiconductor sector,Fixed Income ETFs
+TLT US,EQUITY,iShares 20+ Year Treasury Bond ETF,Long-term Treasuries,Fixed Income ETFs
+IEF US,EQUITY,iShares 7-10 Year Treasury Bond ETF,Medium-term Treasuries,Fixed Income ETFs
+SHY US,EQUITY,iShares 1-3 Year Treasury Bond ETF,Short-term Treasuries,Fixed Income ETFs
+AGG US,EQUITY,iShares Core US Aggregate Bond ETF,Broad bond market,Fixed Income ETFs
+LQD US,EQUITY,iShares iBoxx Investment Grade Corporate Bond ETF,Investment grade corporate,Real Estate
+VNQ US,EQUITY,Vanguard Real Estate ETF,US REITs,Real Estate
+RWX US,EQUITY,SPDR DJ International Real Estate ETF,International REITs,Commodity Indices
+BCOM,INDEX,Bloomberg Commodity Index,Broad commodity exposure,Commodity Indices
+CRB,INDEX,Reuters/Jefferies CRB Index,Commodity basket,Commodity Indices
+GSCI,INDEX,S&P GSCI,Commodity index,Alternative Investments
+GBTC US,EQUITY,Grayscale Bitcoin Trust,Bitcoin exposure,Alternative Investments
+GLD US,EQUITY,SPDR Gold Shares,Gold ETF,Alternative Investments
+SLV US,EQUITY,iShares Silver Trust,Silver ETF,Alternative Investments
+USO US,EQUITY,United States Oil Fund,Oil ETF,International Assets
+VGIT US,EQUITY,Vanguard Intermediate-Term Treasury ETF,Intermediate Treasuries,International Assets
+EMB US,EQUITY,iShares J.P. Morgan USD Emerging Markets Bond ETF,EM debt,International Assets
+BNDX US,EQUITY,Vanguard Total International Bond ETF,International bonds,Additional Economic
+ISM,INDEX,ISM Manufacturing Index,Manufacturing activity,Additional Economic
+NHSPSTOT,INDEX,US Housing Starts,Housing market health,Additional Economic
+RSTAMOM,INDEX,US Retail Sales,Consumer spending,Additional Economic
+INJCJC,INDEX,Initial Jobless Claims,Labor market stress,Additional Economic
+CFNAI,INDEX,Chicago Fed National Activity Index,Economic activity,Global Economic
+EUCPEMUY,INDEX,Euro Area CPI,Eurozone inflation,Global Economic
+JNCPIYOY,INDEX,Japan CPI YoY,Japan inflation,Global Economic
+CNCPIYOY,INDEX,China CPI YoY,China inflation,Global Economic
+GDDUEMP,INDEX,Germany Unemployment Rate,German labor market,Global Economic
+CHGDPYOY,INDEX,China GDP YoY,China economic growth,

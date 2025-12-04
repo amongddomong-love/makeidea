@@ -1,0 +1,26 @@
+작성된 보고서 내용
+파일명: ailert_연결파일_보고서.md
+주요 섹션
+로컬 라이브러리 파일 (3개)
+libs/chart.min.js
+libs/d3.v7.min.js
+libs/xlsx.full.min.js
+외부 CDN 라이브러리 (2개)
+PDF.js (버전 3.11.174)
+PPTXGenJS (버전 3.12.0)
+로컬 스크립트 파일 (1개)
+fixed_functions.js (869줄)
+데이터 파일 참조 (6개 이상)
+go_scen/data/indicator.xlsx
+go_scen/data/market_data/ 관련 파일들
+go_scen/data/news/ 관련 파일들
+동적 경로 파일들
+외부 HTML 파일
+RISK_MONITOR.html
+API 엔드포인트
+Netlify Functions (OpenAI 프록시 등)
+보고서 특징
+파일별 용도와 참조 위치 명시
+배포 전 체크리스트 포함
+권고사항 및 개선 제안 포함
+파일 의존성 요약 테이블
